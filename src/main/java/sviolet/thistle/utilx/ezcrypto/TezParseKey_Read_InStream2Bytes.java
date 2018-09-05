@@ -19,94 +19,49 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
+import java.io.InputStream;
 
-import java.security.SecureRandom;
-
-public class TezcGenKeyAes extends TezcGen<byte[]> {
+public class TezParseKey_Read_InStream2Bytes extends TezCommon_Proc<InputStream, byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "AES";
+    private int limit = 4 * 1024 * 1024;
+    private int buffSize = 1024;
 
-    private int bits = 128;
-    private byte[] seed;
-    private SecureRandom secureRandom;
-
-    public TezcGenKeyAes propertyBits128(){
-        this.bits = 128;
+    public TezParseKey_Read_InStream2Bytes propertyLimit(int maxLength) {
+        this.limit = maxLength;
         return this;
     }
 
-    public TezcGenKeyAes propertyBits192(){
-        this.bits = 192;
-        return this;
-    }
-
-    public TezcGenKeyAes propertyBits256(){
-        this.bits = 256;
-        return this;
-    }
-
-    public TezcGenKeyAes propertyBits(int bits){
-        this.bits = bits;
-        return this;
-    }
-
-    public TezcGenKeyAes optionSeed(byte[] seed) {
-        this.seed = seed;
-        return this;
-    }
-
-    public TezcGenKeyAes optionSecureRandom(SecureRandom secureRandom){
-        this.secureRandom = secureRandom;
+    public TezParseKey_Read_InStream2Bytes propertyBuffSize(int buffSize) {
+        this.buffSize = buffSize;
         return this;
     }
 
     /* *****************************************************************************************************************
-     * continue继续流程
+     * select选择流程
      * *****************************************************************************************************************/
-
-    public TezcEncodeBytes continueEncode(){
-        return new TezcEncodeBytes(this);
-    }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
-    @Override
-    public byte[] get() throws EasyCryptoException {
-        return super.get();
-    }
-
-    @Override
-    public byte[] get(EzExceptionHandler exceptionHandler) {
-        return super.get(exceptionHandler);
-    }
-
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcGenKeyAes() {
+    TezParseKey_Read_InStream2Bytes(TezCommon_Proc<?, ?> previous) {
+        super(previous);
     }
 
     @Override
-    byte[] onGenerate() throws Exception {
-        if (bits <= 0) {
-            throw new IllegalParamException("bits <= 0");
+    byte[] onProcess(InputStream input) throws Exception {
+        if (input == null) {
+            return null;
         }
-        if (secureRandom != null) {
-            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
-        } else if (seed != null) {
-            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
-        } else {
-            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
-        }
+        return TezCommon_Util_InStream.readAll(input, limit, buffSize);
     }
 
 }

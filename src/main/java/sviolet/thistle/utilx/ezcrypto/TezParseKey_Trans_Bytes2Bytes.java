@@ -22,58 +22,69 @@ package sviolet.thistle.utilx.ezcrypto;
 import sviolet.thistle.entity.IllegalParamException;
 import sviolet.thistle.util.conversion.Base64Utils;
 import sviolet.thistle.util.conversion.ByteUtils;
+import sviolet.thistle.util.crypto.PEMEncodeUtils;
 
-public class TezcEncodeBytes extends TezcProc<byte[], String> {
+public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private Type type = Type.BASE64;
+    private Type type;
+    private String charset = "UTF-8";
+    private EzFilterBytesToBytes bytesToBytesFilter;
 
-    private enum Type {
-        HEX,
-        BASE64
+    public enum Type {
+        DECODE_AS_BASE64,
+        DECODE_AS_HEX,
+        DECODE_AS_PEM,
+        TRANSCODE_BY_FILTER
     }
 
-    public TezcEncodeBytes propertyTypeHex(){
-        this.type = Type.HEX;
+    public TezParseKey_Trans_Bytes2Bytes propertyAsBase64() {
+        this.type = Type.DECODE_AS_BASE64;
         return this;
     }
 
-    public TezcEncodeBytes propertyTypeBase64(){
-        this.type = Type.BASE64;
+    public TezParseKey_Trans_Bytes2Bytes propertyAsHex() {
+        this.type = Type.DECODE_AS_HEX;
+        return this;
+    }
+
+    public TezParseKey_Trans_Bytes2Bytes propertyAsPem() {
+        this.type = Type.DECODE_AS_PEM;
+        return this;
+    }
+
+    public TezParseKey_Trans_Bytes2Bytes propertyByFilter(EzFilterBytesToBytes bytesToBytesFilter){
+        this.type = Type.TRANSCODE_BY_FILTER;
+        this.bytesToBytesFilter = bytesToBytesFilter;
+        return this;
+    }
+
+    public TezParseKey_Trans_Bytes2Bytes optionCharset(String charset) {
+        this.charset = charset;
         return this;
     }
 
     /* *****************************************************************************************************************
-     * continue继续流程
+     * select选择流程
      * *****************************************************************************************************************/
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
-    @Override
-    public String get() throws EasyCryptoException {
-        return super.get();
-    }
-
-    @Override
-    public String get(EzExceptionHandler exceptionHandler) {
-        return super.get(exceptionHandler);
-    }
-
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcEncodeBytes(TezcProc<?, ?> previous) {
+    TezParseKey_Trans_Bytes2Bytes(TezCommon_Proc<?, ?> previous) {
         super(previous);
     }
 
     @Override
-    String onProcess(byte[] input) throws Exception {
+    byte[] onProcess(byte[] input) throws Exception {
         if (input == null) {
             return null;
         }
@@ -81,10 +92,17 @@ public class TezcEncodeBytes extends TezcProc<byte[], String> {
             throw new IllegalParamException("type is null");
         }
         switch (type) {
-            case HEX:
-                return ByteUtils.bytesToHex(input);
-            case BASE64:
-                return Base64Utils.encodeToString(input);
+            case DECODE_AS_BASE64:
+                return Base64Utils.decode(new String(input, charset));
+            case DECODE_AS_HEX:
+                return ByteUtils.hexToBytes(new String(input, charset));
+            case DECODE_AS_PEM:
+                return PEMEncodeUtils.pemEncodedToX509EncodedBytes(new String(input, charset));
+            case TRANSCODE_BY_FILTER:
+                if (bytesToBytesFilter == null) {
+                    throw new IllegalParamException("bytesToBytesFilter is null");
+                }
+                return bytesToBytesFilter.filter(input);
             default:
                 throw new IllegalParamException("type is invalid");
         }

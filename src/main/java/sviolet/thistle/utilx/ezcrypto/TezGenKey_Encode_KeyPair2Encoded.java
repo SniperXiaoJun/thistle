@@ -24,7 +24,7 @@ import sviolet.thistle.util.conversion.Base64Utils;
 import sviolet.thistle.util.conversion.ByteUtils;
 import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
 
-public class TezcEncodeKeyPair extends TezcProc<EzKeyPair<?, ?>, EzKeyPairEncoded> {
+public class TezGenKey_Encode_KeyPair2Encoded extends TezCommon_Proc<EzKeyPair<?, ?>, EzKeyPairEncoded> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -44,22 +44,22 @@ public class TezcEncodeKeyPair extends TezcProc<EzKeyPair<?, ?>, EzKeyPairEncode
         BASE64
     }
 
-    public TezcEncodeKeyPair propertyPublicKeyX509(){
+    public TezGenKey_Encode_KeyPair2Encoded propertyPublicKeyX509(){
         this.publicKeyType = KeyType.X509;
         return this;
     }
 
-    public TezcEncodeKeyPair propertyPrivateKeyPKCS8(){
+    public TezGenKey_Encode_KeyPair2Encoded propertyPrivateKeyPKCS8(){
         this.privateKeyType = KeyType.PKCS8;
         return this;
     }
 
-    public TezcEncodeKeyPair propertyEncodeBase64(){
+    public TezGenKey_Encode_KeyPair2Encoded propertyEncodeBase64(){
         this.encodeType = EncodeType.BASE64;
         return this;
     }
 
-    public TezcEncodeKeyPair propertyEncodeHex(){
+    public TezGenKey_Encode_KeyPair2Encoded propertyEncodeHex(){
         this.encodeType = EncodeType.HEX;
         return this;
     }
@@ -73,7 +73,7 @@ public class TezcEncodeKeyPair extends TezcProc<EzKeyPair<?, ?>, EzKeyPairEncode
      * *****************************************************************************************************************/
 
     @Override
-    public EzKeyPairEncoded get() throws EasyCryptoException {
+    public EzKeyPairEncoded get() throws EzException {
         return super.get();
     }
 
@@ -86,7 +86,7 @@ public class TezcEncodeKeyPair extends TezcProc<EzKeyPair<?, ?>, EzKeyPairEncode
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcEncodeKeyPair(TezcProc<?, ?> previous) {
+    TezGenKey_Encode_KeyPair2Encoded(TezCommon_Proc<?, ?> previous) {
         super(previous);
     }
 

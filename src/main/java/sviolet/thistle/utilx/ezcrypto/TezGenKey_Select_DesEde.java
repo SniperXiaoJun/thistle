@@ -22,32 +22,42 @@ package sviolet.thistle.utilx.ezcrypto;
 import sviolet.thistle.entity.IllegalParamException;
 import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
 
-public class TezcGenKeySha extends TezcGen<byte[]> {
+import java.security.SecureRandom;
+
+public class TezGenKey_Select_DesEde extends TezCommon_Gen<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private int bits = 128;
+    private static final String KEY_ALGORITHM = "DESede";
+
+    private int bits = 112;
     private byte[] seed;
+    private SecureRandom secureRandom;
 
-    public TezcGenKeySha propertyBits64(){
-        this.bits = 64;
+    public TezGenKey_Select_DesEde propertyBits128(){
+        this.bits = 112;
         return this;
     }
 
-    public TezcGenKeySha propertyBits128(){
-        this.bits = 128;
+    public TezGenKey_Select_DesEde propertyBits192(){
+        this.bits = 168;
         return this;
     }
 
-    public TezcGenKeySha propertyBits192(){
-        this.bits = 192;
+    public TezGenKey_Select_DesEde propertyBits(int bits){
+        this.bits = bits;
         return this;
     }
 
-    public TezcGenKeySha propertyBits256(){
-        this.bits = 256;
+    public TezGenKey_Select_DesEde propertySeed(byte[] seed) {
+        this.seed = seed;
+        return this;
+    }
+
+    public TezGenKey_Select_DesEde propertySecureRandom(SecureRandom secureRandom){
+        this.secureRandom = secureRandom;
         return this;
     }
 
@@ -55,8 +65,8 @@ public class TezcGenKeySha extends TezcGen<byte[]> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezcEncodeBytes continueEncode(){
-        return new TezcEncodeBytes(this);
+    public TezGenKey_Encode_Bytes2Encoded continueEncode(){
+        return new TezGenKey_Encode_Bytes2Encoded(this);
     }
 
     /* *****************************************************************************************************************
@@ -64,7 +74,7 @@ public class TezcGenKeySha extends TezcGen<byte[]> {
      * *****************************************************************************************************************/
 
     @Override
-    public byte[] get() throws EasyCryptoException {
+    public byte[] get() throws EzException {
         return super.get();
     }
 
@@ -77,8 +87,7 @@ public class TezcGenKeySha extends TezcGen<byte[]> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcGenKeySha(byte[] seed) {
-        this.seed = seed;
+    TezGenKey_Select_DesEde() {
     }
 
     @Override
@@ -86,20 +95,13 @@ public class TezcGenKeySha extends TezcGen<byte[]> {
         if (bits <= 0) {
             throw new IllegalParamException("bits <= 0");
         }
-        if (seed == null) {
-            throw new IllegalParamException("seed is null");
-        }
-        switch (bits) {
-            case 64:
-                return BaseKeyGenerator.generateShaKey64(seed);
-            case 128:
-                return BaseKeyGenerator.generateShaKey128(seed);
-            case 192:
-                return BaseKeyGenerator.generateShaKey192(seed);
-            case 256:
-                return BaseKeyGenerator.generateShaKey256(seed);
-            default:
-                throw new IllegalParamException("invalid bits : " + bits);
+        if (secureRandom != null) {
+            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
+        } else if (seed != null) {
+            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
+        } else {
+            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
         }
     }
+
 }

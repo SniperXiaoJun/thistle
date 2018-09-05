@@ -19,7 +19,7 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public class EasyCryptoGenerateCertificate {
+public class EasyCryptoGenCert {
 
     /* *****************************************************************************************************************
      * select选择流程
@@ -29,7 +29,7 @@ public class EasyCryptoGenerateCertificate {
      * inner logic
      * *****************************************************************************************************************/
 
-    EasyCryptoGenerateCertificate() {
+    EasyCryptoGenCert() {
     }
 
 }

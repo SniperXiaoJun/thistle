@@ -20,87 +20,86 @@
 package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
+import sviolet.thistle.util.conversion.Base64Utils;
+import sviolet.thistle.util.conversion.ByteUtils;
+import sviolet.thistle.util.crypto.PEMEncodeUtils;
 
-import java.security.SecureRandom;
-
-public class TezcGenKeyDesEde extends TezcGen<byte[]> {
+public class TezParseKey_Read_String2Bytes extends TezCommon_Proc<String, byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "DESede";
+    private Type type = Type.X509_BASE64;
+    private String charset = "UTF-8";
 
-    private int bits = 112;
-    private byte[] seed;
-    private SecureRandom secureRandom;
+    public enum Type {
+        X509_BASE64,
+        X509_HEX,
+        X509_PEM,
+        RAW
+    }
 
-    public TezcGenKeyDesEde propertyBits128(){
-        this.bits = 112;
+    public TezParseKey_Read_String2Bytes propertyTypeBase64() {
+        this.type = Type.X509_BASE64;
         return this;
     }
 
-    public TezcGenKeyDesEde propertyBits192(){
-        this.bits = 168;
+    public TezParseKey_Read_String2Bytes propertyTypeHex() {
+        this.type = Type.X509_HEX;
         return this;
     }
 
-    public TezcGenKeyDesEde propertyBits(int bits){
-        this.bits = bits;
+    public TezParseKey_Read_String2Bytes propertyTypePEM() {
+        this.type = Type.X509_PEM;
         return this;
     }
 
-    public TezcGenKeyDesEde propertySeed(byte[] seed) {
-        this.seed = seed;
+    public TezParseKey_Read_String2Bytes propertyTypeRaw() {
+        this.type = Type.RAW;
         return this;
     }
 
-    public TezcGenKeyDesEde propertySecureRandom(SecureRandom secureRandom){
-        this.secureRandom = secureRandom;
+    public TezParseKey_Read_String2Bytes optionCharset(String charset) {
+        this.charset = charset;
         return this;
     }
 
     /* *****************************************************************************************************************
-     * continue继续流程
+     * select选择流程
      * *****************************************************************************************************************/
-
-    public TezcEncodeBytes continueEncode(){
-        return new TezcEncodeBytes(this);
-    }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
-    @Override
-    public byte[] get() throws EasyCryptoException {
-        return super.get();
-    }
-
-    @Override
-    public byte[] get(EzExceptionHandler exceptionHandler) {
-        return super.get(exceptionHandler);
-    }
-
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcGenKeyDesEde() {
+    TezParseKey_Read_String2Bytes(TezCommon_Proc<?, ?> previous) {
+        super(previous);
     }
 
     @Override
-    byte[] onGenerate() throws Exception {
-        if (bits <= 0) {
-            throw new IllegalParamException("bits <= 0");
+    byte[] onProcess(String input) throws Exception {
+        if (input == null) {
+            return null;
         }
-        if (secureRandom != null) {
-            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
-        } else if (seed != null) {
-            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
-        } else {
-            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
+        if (type == null) {
+            throw new IllegalParamException("type is null");
+        }
+        switch (type) {
+            case X509_BASE64:
+                return Base64Utils.decode(input);
+            case X509_HEX:
+                return ByteUtils.hexToBytes(input);
+            case X509_PEM:
+                return PEMEncodeUtils.pemEncodedToX509EncodedBytes(input);
+            case RAW:
+                return input.getBytes(charset);
+            default:
+                throw new IllegalParamException("type is invalid");
         }
     }
 

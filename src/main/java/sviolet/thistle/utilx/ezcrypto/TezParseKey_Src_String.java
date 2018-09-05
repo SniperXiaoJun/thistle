@@ -19,7 +19,7 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public class TezcSrcBytes extends TezcSrc<byte[]> {
+public class TezParseKey_Src_String extends TezCommon_Src<String> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -37,7 +37,7 @@ public class TezcSrcBytes extends TezcSrc<byte[]> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcSrcBytes(byte[] input) {
+    TezParseKey_Src_String(String input) {
         super(input);
     }
 

@@ -19,69 +19,32 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
+import java.io.File;
 
-import java.security.KeyPair;
-import java.security.interfaces.ECPrivateKey;
-import java.security.interfaces.ECPublicKey;
-
-public class TezcGenKeyEcdsa extends TezcGen<EzKeyPairEcc> {
+public class TezParseKey_Src_File extends TezCommon_Src<File> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "EC";
-
-    private String type = "secp256r1";
-
-    public TezcGenKeyEcdsa propertyTypeSECP256R1(){
-        this.type = "secp256r1";
-        return this;
-    }
-
-    public TezcGenKeyEcdsa propertyType(String type){
-        this.type = type;
-        return this;
-    }
-
     /* *****************************************************************************************************************
-     * continue继续流程
+     * to选择目标
      * *****************************************************************************************************************/
 
-    public TezcEncodeKeyPair continueEncode(){
-        return new TezcEncodeKeyPair(this);
+    public TezParseKey_Read_File2Bytes toObject(){
+        return new TezParseKey_Read_File2Bytes(this);
     }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
-    @Override
-    public EzKeyPairEcc get() throws EasyCryptoException {
-        return super.get();
-    }
-
-    @Override
-    public EzKeyPairEcc get(EzExceptionHandler exceptionHandler) {
-        return super.get(exceptionHandler);
-    }
-
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcGenKeyEcdsa() {
-    }
-
-    @Override
-    EzKeyPairEcc onGenerate() throws Exception {
-        if (type == null) {
-            throw new IllegalParamException("type is null");
-        }
-        KeyPair keyPair = BaseAsymKeyGenerator.generateEcKeyPair(type, KEY_ALGORITHM);
-        return new EzKeyPairEcc((ECPublicKey) keyPair.getPublic(), (ECPrivateKey) keyPair.getPrivate());
+    TezParseKey_Src_File(File input) {
+        super(input);
     }
 
 }

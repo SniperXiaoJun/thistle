@@ -19,62 +19,69 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import java.io.File;
-import java.io.InputStream;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
+import sviolet.thistle.entity.IllegalParamException;
+import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
 
-public class EasyCrypto {
+import java.security.KeyPair;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
+
+public class TezGenKey_Select_Ecdsa extends TezCommon_Gen<EzKeyPairEcc> {
 
     /* *****************************************************************************************************************
-     * parseKey 数据/对象 -> 密钥
+     * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    public static TezParseKey_Src_Bytes parseKey(byte[] data) {
-        return new TezParseKey_Src_Bytes(data);
+    private static final String KEY_ALGORITHM = "EC";
+
+    private String type = "secp256r1";
+
+    public TezGenKey_Select_Ecdsa propertyTypeSECP256R1(){
+        this.type = "secp256r1";
+        return this;
     }
 
-    public static TezParseKey_Src_String parseKey(String data) {
-        return new TezParseKey_Src_String(data);
-    }
-
-    public static TezParseKey_Src_InStream parseKey(InputStream inputStream) {
-        return new TezParseKey_Src_InStream(inputStream);
-    }
-
-    public static TezParseKey_Src_File parseKey(File file) {
-        return new TezParseKey_Src_File(file);
-    }
-
-    public static TezParseKey_Src_ExpMod parseKey(EzExponentAndModulus exponentAndModule) {
-        return new TezParseKey_Src_ExpMod(exponentAndModule);
-    }
-
-    public static TezParseKey_Src_RsaPriKey parseKey(RSAPrivateKey rsaPrivateKey) {
-        return new TezParseKey_Src_RsaPriKey(rsaPrivateKey);
+    public TezGenKey_Select_Ecdsa propertyType(String type){
+        this.type = type;
+        return this;
     }
 
     /* *****************************************************************************************************************
-     * generateKey 生成密钥
+     * continue继续流程
      * *****************************************************************************************************************/
 
-    public static EasyCryptoGenKey generateKey(){
-        return generatorKey;
+    public TezGenKey_Encode_KeyPair2Encoded continueEncode(){
+        return new TezGenKey_Encode_KeyPair2Encoded(this);
     }
 
     /* *****************************************************************************************************************
-     * generateCertificate 生成证书
+     * get结束取值
      * *****************************************************************************************************************/
 
-    public static EasyCryptoGenCert generateCertificate(){
-        return generateCertificate;
+    @Override
+    public EzKeyPairEcc get() throws EzException {
+        return super.get();
+    }
+
+    @Override
+    public EzKeyPairEcc get(EzExceptionHandler exceptionHandler) {
+        return super.get(exceptionHandler);
     }
 
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    private static final EasyCryptoGenKey generatorKey = new EasyCryptoGenKey();
-    private static final EasyCryptoGenCert generateCertificate = new EasyCryptoGenCert();
+    TezGenKey_Select_Ecdsa() {
+    }
+
+    @Override
+    EzKeyPairEcc onGenerate() throws Exception {
+        if (type == null) {
+            throw new IllegalParamException("type is null");
+        }
+        KeyPair keyPair = BaseAsymKeyGenerator.generateEcKeyPair(type, KEY_ALGORITHM);
+        return new EzKeyPairEcc((ECPublicKey) keyPair.getPublic(), (ECPrivateKey) keyPair.getPrivate());
+    }
 
 }

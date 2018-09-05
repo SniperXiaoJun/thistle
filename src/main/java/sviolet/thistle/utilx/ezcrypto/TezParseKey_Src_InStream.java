@@ -21,7 +21,7 @@ package sviolet.thistle.utilx.ezcrypto;
 
 import java.io.InputStream;
 
-public class TezcFromInStm extends TezcSrc<InputStream> {
+public class TezParseKey_Src_InStream extends TezCommon_Src<InputStream> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -51,7 +51,7 @@ public class TezcFromInStm extends TezcSrc<InputStream> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcFromInStm(InputStream input) {
+    TezParseKey_Src_InStream(InputStream input) {
         super(input);
     }
 

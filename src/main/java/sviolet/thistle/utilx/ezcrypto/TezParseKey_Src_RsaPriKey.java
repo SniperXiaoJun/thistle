@@ -19,14 +19,16 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public abstract class TezcGen<T> extends TezcProc<T, T> {
+import java.security.interfaces.RSAPrivateKey;
+
+public class TezParseKey_Src_RsaPriKey extends TezCommon_Src<RSAPrivateKey> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
     /* *****************************************************************************************************************
-     * continue继续流程
+     * select选择流程
      * *****************************************************************************************************************/
 
     /* *****************************************************************************************************************
@@ -37,15 +39,8 @@ public abstract class TezcGen<T> extends TezcProc<T, T> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcGen() {
-        super(null);
+    TezParseKey_Src_RsaPriKey(RSAPrivateKey input) {
+        super(input);
     }
-
-    @Override
-    final T onProcess(T input) throws Exception {
-        return onGenerate();
-    }
-
-    abstract T onGenerate() throws Exception ;
 
 }

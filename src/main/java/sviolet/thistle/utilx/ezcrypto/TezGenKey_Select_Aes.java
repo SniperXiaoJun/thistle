@@ -24,34 +24,44 @@ import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
 
 import java.security.SecureRandom;
 
-public class TezcGenKeyDes extends TezcGen<byte[]> {
+public class TezGenKey_Select_Aes extends TezCommon_Gen<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "DES";
+    private static final String KEY_ALGORITHM = "AES";
 
-    private int bits = 56;
+    private int bits = 128;
     private byte[] seed;
     private SecureRandom secureRandom;
 
-    public TezcGenKeyDes propertyBits64(){
-        this.bits = 56;
+    public TezGenKey_Select_Aes propertyBits128(){
+        this.bits = 128;
         return this;
     }
 
-    public TezcGenKeyDes propertyBits(int bits){
+    public TezGenKey_Select_Aes propertyBits192(){
+        this.bits = 192;
+        return this;
+    }
+
+    public TezGenKey_Select_Aes propertyBits256(){
+        this.bits = 256;
+        return this;
+    }
+
+    public TezGenKey_Select_Aes propertyBits(int bits){
         this.bits = bits;
         return this;
     }
 
-    public TezcGenKeyDes optionSeed(byte[] seed) {
+    public TezGenKey_Select_Aes optionSeed(byte[] seed) {
         this.seed = seed;
         return this;
     }
 
-    public TezcGenKeyDes optionSecureRandom(SecureRandom secureRandom){
+    public TezGenKey_Select_Aes optionSecureRandom(SecureRandom secureRandom){
         this.secureRandom = secureRandom;
         return this;
     }
@@ -60,8 +70,8 @@ public class TezcGenKeyDes extends TezcGen<byte[]> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezcEncodeBytes continueEncode(){
-        return new TezcEncodeBytes(this);
+    public TezGenKey_Encode_Bytes2Encoded continueEncode(){
+        return new TezGenKey_Encode_Bytes2Encoded(this);
     }
 
     /* *****************************************************************************************************************
@@ -69,7 +79,7 @@ public class TezcGenKeyDes extends TezcGen<byte[]> {
      * *****************************************************************************************************************/
 
     @Override
-    public byte[] get() throws EasyCryptoException {
+    public byte[] get() throws EzException {
         return super.get();
     }
 
@@ -82,7 +92,7 @@ public class TezcGenKeyDes extends TezcGen<byte[]> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcGenKeyDes() {
+    TezGenKey_Select_Aes() {
     }
 
     @Override

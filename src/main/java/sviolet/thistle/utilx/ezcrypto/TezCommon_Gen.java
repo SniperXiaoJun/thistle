@@ -19,45 +19,33 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public class EasyCryptoGenerateKey {
+public abstract class TezCommon_Gen<T> extends TezCommon_Proc<T, T> {
 
     /* *****************************************************************************************************************
-     * select选择流程
+     * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    public TezcGenKeyRsa selectRSA(){
-        return new TezcGenKeyRsa();
-    }
+    /* *****************************************************************************************************************
+     * continue继续流程
+     * *****************************************************************************************************************/
 
-    public TezcGenKeyEcdsa selectECDSA(){
-        return new TezcGenKeyEcdsa();
-    }
-
-    public TezcGenKeyAes selectAES(){
-        return new TezcGenKeyAes();
-    }
-
-    public TezcGenKeyDes selectDES(){
-        return new TezcGenKeyDes();
-    }
-
-    public TezcGenKeyDesEde selectDESEDE(){
-        return new TezcGenKeyDesEde();
-    }
-
-    public TezcGenKeyDesEde select3DES(){
-        return new TezcGenKeyDesEde();
-    }
-
-    public TezcGenKeySha selectSHA(byte[] seed) {
-        return new TezcGenKeySha(seed);
-    }
+    /* *****************************************************************************************************************
+     * get结束取值
+     * *****************************************************************************************************************/
 
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    EasyCryptoGenerateKey() {
+    TezCommon_Gen() {
+        super(null);
     }
+
+    @Override
+    final T onProcess(T input) throws Exception {
+        return onGenerate();
+    }
+
+    abstract T onGenerate() throws Exception ;
 
 }

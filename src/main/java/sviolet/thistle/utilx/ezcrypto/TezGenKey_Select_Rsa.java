@@ -19,36 +19,74 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public abstract class TezcSrc<T> extends TezcProc<T, T> {
+import sviolet.thistle.entity.IllegalParamException;
+import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
+
+import java.security.KeyPair;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+
+public class TezGenKey_Select_Rsa extends TezCommon_Gen<EzKeyPairRsa> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
+    private static final String KEY_ALGORITHM = "RSA";
+
+    private int bits = 2048;
+
+    public TezGenKey_Select_Rsa propertyBits1024(){
+        this.bits = 1024;
+        return this;
+    }
+
+    public TezGenKey_Select_Rsa propertyBits2048(){
+        this.bits = 2048;
+        return this;
+    }
+
+    public TezGenKey_Select_Rsa propertyBits(int bits){
+        this.bits = bits;
+        return this;
+    }
+
     /* *****************************************************************************************************************
-     * select选择流程
+     * continue继续流程
      * *****************************************************************************************************************/
+
+    public TezGenKey_Encode_KeyPair2Encoded continueEncode(){
+        return new TezGenKey_Encode_KeyPair2Encoded(this);
+    }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
+    @Override
+    public EzKeyPairRsa get() throws EzException {
+        return super.get();
+    }
+
+    @Override
+    public EzKeyPairRsa get(EzExceptionHandler exceptionHandler) {
+        return super.get(exceptionHandler);
+    }
+
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    private T data;
-
-    TezcSrc(T input) {
-        super(null);
-        this.data = input;
+    TezGenKey_Select_Rsa() {
     }
 
     @Override
-    final T onProcess(T input) throws Exception {
-        T output = data;
-        data = null;
-        return output;
+    EzKeyPairRsa onGenerate() throws Exception {
+        if (bits <= 0) {
+            throw new IllegalParamException("bits <= 0");
+        }
+        KeyPair keyPair = BaseAsymKeyGenerator.generateRsaKeyPair(bits, KEY_ALGORITHM);
+        return new EzKeyPairRsa((RSAPublicKey) keyPair.getPublic(), (RSAPrivateKey) keyPair.getPrivate());
     }
 
 }

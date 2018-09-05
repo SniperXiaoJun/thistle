@@ -19,62 +19,26 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import java.io.File;
-import java.io.InputStream;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-
-public class EasyCrypto {
+public class TezParseKey_Src_ExpMod extends TezCommon_Src<EzExponentAndModulus> {
 
     /* *****************************************************************************************************************
-     * parseKey 数据/对象 -> 密钥
+     * property必要参数 / option可选参数
      * *****************************************************************************************************************/
-
-    public static TezParseKey_Src_Bytes parseKey(byte[] data) {
-        return new TezParseKey_Src_Bytes(data);
-    }
-
-    public static TezParseKey_Src_String parseKey(String data) {
-        return new TezParseKey_Src_String(data);
-    }
-
-    public static TezParseKey_Src_InStream parseKey(InputStream inputStream) {
-        return new TezParseKey_Src_InStream(inputStream);
-    }
-
-    public static TezParseKey_Src_File parseKey(File file) {
-        return new TezParseKey_Src_File(file);
-    }
-
-    public static TezParseKey_Src_ExpMod parseKey(EzExponentAndModulus exponentAndModule) {
-        return new TezParseKey_Src_ExpMod(exponentAndModule);
-    }
-
-    public static TezParseKey_Src_RsaPriKey parseKey(RSAPrivateKey rsaPrivateKey) {
-        return new TezParseKey_Src_RsaPriKey(rsaPrivateKey);
-    }
 
     /* *****************************************************************************************************************
-     * generateKey 生成密钥
+     * select选择流程
      * *****************************************************************************************************************/
-
-    public static EasyCryptoGenKey generateKey(){
-        return generatorKey;
-    }
 
     /* *****************************************************************************************************************
-     * generateCertificate 生成证书
+     * get结束取值
      * *****************************************************************************************************************/
-
-    public static EasyCryptoGenCert generateCertificate(){
-        return generateCertificate;
-    }
 
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    private static final EasyCryptoGenKey generatorKey = new EasyCryptoGenKey();
-    private static final EasyCryptoGenCert generateCertificate = new EasyCryptoGenCert();
+    TezParseKey_Src_ExpMod(EzExponentAndModulus input) {
+        super(input);
+    }
 
 }

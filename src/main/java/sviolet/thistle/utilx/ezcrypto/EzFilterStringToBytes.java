@@ -19,24 +19,8 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public class EasyCryptoException extends Exception {
+public interface EzFilterStringToBytes {
 
-    private int step;
+    byte[] filter(String input) throws Exception;
 
-    public EasyCryptoException(String message, int step) {
-        super(message);
-        this.step = step;
-    }
-
-    public EasyCryptoException(String message, Throwable cause, int step) {
-        super(message, cause);
-        this.step = step;
-    }
-
-    /**
-     * 异常发生的步骤, 0:第一步, 1:第二步 ... N:结果转换
-     */
-    public int getStep() {
-        return step;
-    }
 }

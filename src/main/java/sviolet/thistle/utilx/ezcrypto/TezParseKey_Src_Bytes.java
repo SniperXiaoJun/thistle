@@ -19,7 +19,7 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public class TezcSrcExpMod extends TezcSrc<EzExponentAndModulus> {
+public class TezParseKey_Src_Bytes extends TezCommon_Src<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -37,7 +37,7 @@ public class TezcSrcExpMod extends TezcSrc<EzExponentAndModulus> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcSrcExpMod(EzExponentAndModulus input) {
+    TezParseKey_Src_Bytes(byte[] input) {
         super(input);
     }
 

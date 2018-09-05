@@ -21,20 +21,20 @@ package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.util.common.CloseableUtils;
 
-public abstract class TezcProc<I, O> {
+public abstract class TezCommon_Proc<I, O> {
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
-    public O get() throws EasyCryptoException {
+    public O get() throws EzException {
         return doFinal();
     }
 
     public O get(EzExceptionHandler exceptionHandler){
         try {
             return doFinal();
-        } catch (EasyCryptoException e) {
+        } catch (EzException e) {
             if (exceptionHandler != null) {
                 exceptionHandler.onException(e.getStep(), e.getCause());
             }
@@ -46,10 +46,10 @@ public abstract class TezcProc<I, O> {
      * inner logic
      * *****************************************************************************************************************/
 
-    private TezcProc<?, ?> firstProc;
-    private TezcProc<?, ?> nextProc;
+    private TezCommon_Proc<?, ?> firstProc;
+    private TezCommon_Proc<?, ?> nextProc;
 
-    TezcProc(TezcProc<?, ?> previous) {
+    TezCommon_Proc(TezCommon_Proc<?, ?> previous) {
         if (previous == null) {
             firstProc = this;
         } else {
@@ -58,9 +58,9 @@ public abstract class TezcProc<I, O> {
         }
     }
 
-    O doFinal() throws EasyCryptoException {
+    O doFinal() throws EzException {
 
-        TezcProc<?, ?> currProc = firstProc;
+        TezCommon_Proc<?, ?> currProc = firstProc;
         Object inputData = null;
         int step = 0;
 
@@ -69,7 +69,7 @@ public abstract class TezcProc<I, O> {
             try {
                 outputData = currProc.process(inputData);
             } catch (Exception e) {
-                throw new EasyCryptoException("EasyCrypto process error, step " + step + ", processor " + currProc.getClass().getSimpleName(), e, step);
+                throw new EzException("EasyCrypto process error, step " + step + ", processor " + currProc.getClass().getSimpleName(), e, step);
             } finally {
                 //close input
                 CloseableUtils.closeIfCloseable(inputData);
@@ -82,7 +82,7 @@ public abstract class TezcProc<I, O> {
         try {
             return (O) inputData;
         } catch (Exception e) {
-            throw new EasyCryptoException("EasyCrypto process error, step " + step + " (result cast)", e, step);
+            throw new EzException("EasyCrypto process error, step " + step + " (result cast)", e, step);
         }
     }
 

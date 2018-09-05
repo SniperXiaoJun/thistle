@@ -19,28 +19,23 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.common.CloseableUtils;
-import sviolet.thistle.util.conversion.Base64Utils;
-import sviolet.thistle.util.conversion.ByteUtils;
+import java.io.File;
 
-import java.io.*;
-
-public class TezcFromFile2Bytes extends TezcProc<File, byte[]> {
+public class TezParseKey_Read_File2Bytes extends TezCommon_Proc<File, byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private int limit = 1024 * 1024;
+    private int limit = 4 * 1024 * 1024;
     private int buffSize = 1024;
 
-    public TezcFromFile2Bytes propertyLimit(int maxLength) {
+    public TezParseKey_Read_File2Bytes propertyLimit(int maxLength) {
         this.limit = maxLength;
         return this;
     }
 
-    public TezcFromFile2Bytes propertyBuffSize(int buffSize) {
+    public TezParseKey_Read_File2Bytes propertyBuffSize(int buffSize) {
         this.buffSize = buffSize;
         return this;
     }
@@ -48,34 +43,6 @@ public class TezcFromFile2Bytes extends TezcProc<File, byte[]> {
     /* *****************************************************************************************************************
      * select选择流程
      * *****************************************************************************************************************/
-
-    public void selectEncrypt(){
-        //TezcBytesEnc
-    }
-
-    public void selectDecrypt(){
-        //TezcBytesDec
-    }
-
-    public void selectSign(){
-        //TezcBytesSign
-    }
-
-    public void selectVerify(){
-        //TezcBytesVeri
-    }
-
-    public void selectDigest(){
-        //TezcBytesDige
-    }
-
-    public void selectParseKey(){
-
-    }
-
-    public void selectParseCertificate(){
-
-    }
 
     /* *****************************************************************************************************************
      * get结束取值
@@ -85,42 +52,16 @@ public class TezcFromFile2Bytes extends TezcProc<File, byte[]> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcFromFile2Bytes(TezcProc<?, ?> previous) {
+    TezParseKey_Read_File2Bytes(TezCommon_Proc<?, ?> previous) {
         super(previous);
     }
 
     @Override
     byte[] onProcess(File input) throws Exception {
-        if (buffSize < 1024){
-            throw new IllegalParamException("buffSize < 1024");
-        }
         if (input == null) {
-            throw new IllegalParamException("file is null");
+            return null;
         }
-        if (!input.exists()) {
-            throw new FileNotFoundException("File not found, dir:" + input.getAbsolutePath());
-        }
-        if (!input.isFile()) {
-            throw new FileNotFoundException("Not a file, dir:" + input.getAbsolutePath());
-        }
-        if (input.length() > limit) {
-            throw new FileNotFoundException("File too large, limit:" + limit + ", actualL" + input.length() + ", dir:" + input.getAbsolutePath());
-        }
-
-        BufferedInputStream inputStream = null;
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream((int) input.length());
-        try {
-            inputStream = new BufferedInputStream(new FileInputStream(input));
-            byte[] buff = new byte[buffSize];
-            int length;
-            while ((length = inputStream.read(buff)) >= 0) {
-                outputStream.write(buff, 0, length);
-            }
-        } finally {
-            CloseableUtils.closeQuiet(inputStream);
-        }
-
-        return outputStream.toByteArray();
+        return TezCommon_Util_File.readAll(input, limit, buffSize);
     }
 
 }

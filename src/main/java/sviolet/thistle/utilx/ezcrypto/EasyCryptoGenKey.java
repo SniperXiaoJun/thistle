@@ -19,40 +19,45 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import java.io.File;
-
-public class TezcFromFile extends TezcSrc<File> {
+public class EasyCryptoGenKey {
 
     /* *****************************************************************************************************************
-     * property必要参数 / option可选参数
+     * select选择流程
      * *****************************************************************************************************************/
 
-    /* *****************************************************************************************************************
-     * to选择目标
-     * *****************************************************************************************************************/
-
-    public TezcFromFile2Bytes toObject(){
-        return new TezcFromFile2Bytes(this);
+    public TezGenKey_Select_Rsa selectRSA(){
+        return new TezGenKey_Select_Rsa();
     }
 
-    public void toFile(){
-
+    public TezGenKey_Select_Ecdsa selectECDSA(){
+        return new TezGenKey_Select_Ecdsa();
     }
 
-    public void toStream(){
-
+    public TezGenKey_Select_Aes selectAES(){
+        return new TezGenKey_Select_Aes();
     }
 
-    /* *****************************************************************************************************************
-     * get结束取值
-     * *****************************************************************************************************************/
+    public TezGenKey_Select_Des selectDES(){
+        return new TezGenKey_Select_Des();
+    }
+
+    public TezGenKey_Select_DesEde selectDESEDE(){
+        return new TezGenKey_Select_DesEde();
+    }
+
+    public TezGenKey_Select_DesEde select3DES(){
+        return new TezGenKey_Select_DesEde();
+    }
+
+    public TezGenKey_Select_Sha selectSHA(byte[] seed) {
+        return new TezGenKey_Select_Sha(seed);
+    }
 
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezcFromFile(File input) {
-        super(input);
+    EasyCryptoGenKey() {
     }
 
 }
