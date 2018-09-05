@@ -41,8 +41,12 @@ public class TezParseKey_Read_InStream2Bytes extends TezCommon_Proc<InputStream,
     }
 
     /* *****************************************************************************************************************
-     * select选择流程
+     * continue继续流程
      * *****************************************************************************************************************/
+
+    public TezParseKey_Trans_Bytes2Bytes continueTranscode(){
+        return new TezParseKey_Trans_Bytes2Bytes(this);
+    }
 
     /* *****************************************************************************************************************
      * get结束取值

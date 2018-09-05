@@ -34,8 +34,8 @@ public class EasyCrypto {
         return new TezParseKey_Src_Bytes(data);
     }
 
-    public static TezParseKey_Src_String parseKey(String data) {
-        return new TezParseKey_Src_String(data);
+    public static TezParseKey_Read_String2Bytes parseKey(String data) {
+        return new TezParseKey_Read_String2Bytes(new TezParseKey_Src_String(data));
     }
 
     public static TezParseKey_Src_InStream parseKey(InputStream inputStream) {

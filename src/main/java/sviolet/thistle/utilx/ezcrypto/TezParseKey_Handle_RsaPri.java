@@ -20,44 +20,26 @@
 package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
+import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
 
-import java.security.SecureRandom;
+import java.security.interfaces.RSAPrivateKey;
 
-public class TezGenKey_Select_DesEde extends TezCommon_Gen<byte[]> {
+public class TezParseKey_Handle_RsaPri extends TezCommon_Proc<byte[], RSAPrivateKey> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "DESede";
+    private static final String KEY_ALGORITHM = "RSA";
 
-    private int bits = 112;
-    private byte[] seed;
-    private SecureRandom secureRandom;
+    private Type type = Type.PKCS8;
 
-    public TezGenKey_Select_DesEde propertyBits128(){
-        this.bits = 112;
-        return this;
+    private enum Type {
+        PKCS8
     }
 
-    public TezGenKey_Select_DesEde propertyBits192(){
-        this.bits = 168;
-        return this;
-    }
-
-    public TezGenKey_Select_DesEde propertyBits(int bits){
-        this.bits = bits;
-        return this;
-    }
-
-    public TezGenKey_Select_DesEde propertySeed(byte[] seed) {
-        this.seed = seed;
-        return this;
-    }
-
-    public TezGenKey_Select_DesEde propertySecureRandom(SecureRandom secureRandom){
-        this.secureRandom = secureRandom;
+    public TezParseKey_Handle_RsaPri propertyTypePKCS8(){
+        this.type = Type.PKCS8;
         return this;
     }
 
@@ -65,21 +47,17 @@ public class TezGenKey_Select_DesEde extends TezCommon_Gen<byte[]> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezGenKey_Encode_Bytes2Encoded continueEncode(){
-        return new TezGenKey_Encode_Bytes2Encoded(this);
-    }
-
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
     @Override
-    public byte[] get() throws EzException {
+    public RSAPrivateKey get() throws EzException {
         return super.get();
     }
 
     @Override
-    public byte[] get(EzExceptionHandler exceptionHandler) {
+    public RSAPrivateKey get(EzExceptionHandler exceptionHandler) {
         return super.get(exceptionHandler);
     }
 
@@ -87,20 +65,23 @@ public class TezGenKey_Select_DesEde extends TezCommon_Gen<byte[]> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Select_DesEde() {
+    TezParseKey_Handle_RsaPri(TezCommon_Proc<?, ?> previous) {
+        super(previous);
     }
 
     @Override
-    byte[] onGenerate() throws Exception {
-        if (bits <= 0) {
-            throw new IllegalParamException("bits <= 0");
+    RSAPrivateKey onProcess(byte[] input) throws Exception {
+        if (input == null) {
+            return null;
         }
-        if (secureRandom != null) {
-            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
-        } else if (seed != null) {
-            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
-        } else {
-            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
+        if (type == null) {
+            throw new IllegalParamException("type is null");
+        }
+        switch (type) {
+            case PKCS8:
+                return (RSAPrivateKey) BaseAsymKeyGenerator.parsePrivateKeyByPKCS8(input, KEY_ALGORITHM);
+            default:
+                throw new IllegalParamException("type is invalid");
         }
     }
 

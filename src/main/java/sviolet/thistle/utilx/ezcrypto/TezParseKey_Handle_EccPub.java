@@ -19,24 +19,27 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import java.io.File;
+import sviolet.thistle.entity.IllegalParamException;
+import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
 
-public class TezParseKey_Read_File2Bytes extends TezCommon_Proc<File, byte[]> {
+import java.security.interfaces.ECPublicKey;
+
+public class TezParseKey_Handle_EccPub extends TezCommon_Proc<byte[], ECPublicKey> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private int limit = 4 * 1024 * 1024;
-    private int buffSize = 1024;
+    private static final String KEY_ALGORITHM = "EC";
 
-    public TezParseKey_Read_File2Bytes propertyLimit(int maxLength) {
-        this.limit = maxLength;
-        return this;
+    private Type type = Type.X509;
+
+    private enum Type {
+        X509
     }
 
-    public TezParseKey_Read_File2Bytes propertyBuffSize(int buffSize) {
-        this.buffSize = buffSize;
+    public TezParseKey_Handle_EccPub propertyTypeX509(){
+        this.type = Type.X509;
         return this;
     }
 
@@ -44,28 +47,42 @@ public class TezParseKey_Read_File2Bytes extends TezCommon_Proc<File, byte[]> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezParseKey_Trans_Bytes2Bytes continueTranscode(){
-        return new TezParseKey_Trans_Bytes2Bytes(this);
-    }
-
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
+
+    @Override
+    public ECPublicKey get() throws EzException {
+        return super.get();
+    }
+
+    @Override
+    public ECPublicKey get(EzExceptionHandler exceptionHandler) {
+        return super.get(exceptionHandler);
+    }
 
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Read_File2Bytes(TezCommon_Proc<?, ?> previous) {
+    TezParseKey_Handle_EccPub(TezCommon_Proc<?, ?> previous) {
         super(previous);
     }
 
     @Override
-    byte[] onProcess(File input) throws Exception {
+    ECPublicKey onProcess(byte[] input) throws Exception {
         if (input == null) {
             return null;
         }
-        return TezCommon_Util_File.readAll(input, limit, buffSize);
+        if (type == null) {
+            throw new IllegalParamException("type is null");
+        }
+        switch (type) {
+            case X509:
+                return (ECPublicKey) BaseAsymKeyGenerator.parsePublicKeyByX509(input, KEY_ALGORITHM);
+            default:
+                throw new IllegalParamException("type is invalid");
+        }
     }
 
 }

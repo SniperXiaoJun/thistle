@@ -20,29 +20,34 @@
 package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
+import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
 
-import java.security.KeyPair;
-import java.security.interfaces.ECPrivateKey;
-import java.security.interfaces.ECPublicKey;
-
-public class TezGenKey_Select_Ecdsa extends TezCommon_Gen<EzKeyPairEcc> {
+public class TezGenKey_Handle_Sha extends TezCommon_Gen<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "EC";
+    private int bits = 128;
+    private byte[] seed;
 
-    private String type = "secp256r1";
-
-    public TezGenKey_Select_Ecdsa propertyTypeSECP256R1(){
-        this.type = "secp256r1";
+    public TezGenKey_Handle_Sha propertyBits64(){
+        this.bits = 64;
         return this;
     }
 
-    public TezGenKey_Select_Ecdsa propertyType(String type){
-        this.type = type;
+    public TezGenKey_Handle_Sha propertyBits128(){
+        this.bits = 128;
+        return this;
+    }
+
+    public TezGenKey_Handle_Sha propertyBits192(){
+        this.bits = 192;
+        return this;
+    }
+
+    public TezGenKey_Handle_Sha propertyBits256(){
+        this.bits = 256;
         return this;
     }
 
@@ -50,8 +55,8 @@ public class TezGenKey_Select_Ecdsa extends TezCommon_Gen<EzKeyPairEcc> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezGenKey_Encode_KeyPair2Encoded continueEncode(){
-        return new TezGenKey_Encode_KeyPair2Encoded(this);
+    public TezGenKey_Encode_Bytes2Encoded continueEncode(){
+        return new TezGenKey_Encode_Bytes2Encoded(this);
     }
 
     /* *****************************************************************************************************************
@@ -59,12 +64,12 @@ public class TezGenKey_Select_Ecdsa extends TezCommon_Gen<EzKeyPairEcc> {
      * *****************************************************************************************************************/
 
     @Override
-    public EzKeyPairEcc get() throws EzException {
+    public byte[] get() throws EzException {
         return super.get();
     }
 
     @Override
-    public EzKeyPairEcc get(EzExceptionHandler exceptionHandler) {
+    public byte[] get(EzExceptionHandler exceptionHandler) {
         return super.get(exceptionHandler);
     }
 
@@ -72,16 +77,29 @@ public class TezGenKey_Select_Ecdsa extends TezCommon_Gen<EzKeyPairEcc> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Select_Ecdsa() {
+    TezGenKey_Handle_Sha(byte[] seed) {
+        this.seed = seed;
     }
 
     @Override
-    EzKeyPairEcc onGenerate() throws Exception {
-        if (type == null) {
-            throw new IllegalParamException("type is null");
+    byte[] onGenerate() throws Exception {
+        if (bits <= 0) {
+            throw new IllegalParamException("bits <= 0");
         }
-        KeyPair keyPair = BaseAsymKeyGenerator.generateEcKeyPair(type, KEY_ALGORITHM);
-        return new EzKeyPairEcc((ECPublicKey) keyPair.getPublic(), (ECPrivateKey) keyPair.getPrivate());
+        if (seed == null) {
+            throw new IllegalParamException("seed is null");
+        }
+        switch (bits) {
+            case 64:
+                return BaseKeyGenerator.generateShaKey64(seed);
+            case 128:
+                return BaseKeyGenerator.generateShaKey128(seed);
+            case 192:
+                return BaseKeyGenerator.generateShaKey192(seed);
+            case 256:
+                return BaseKeyGenerator.generateShaKey256(seed);
+            default:
+                throw new IllegalParamException("invalid bits : " + bits);
+        }
     }
-
 }

@@ -26,7 +26,7 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
-public class TezGenKey_Select_Rsa extends TezCommon_Gen<EzKeyPairRsa> {
+public class TezGenKey_Handle_Rsa extends TezCommon_Gen<EzKeyPairRsa> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -36,17 +36,17 @@ public class TezGenKey_Select_Rsa extends TezCommon_Gen<EzKeyPairRsa> {
 
     private int bits = 2048;
 
-    public TezGenKey_Select_Rsa propertyBits1024(){
+    public TezGenKey_Handle_Rsa propertyBits1024(){
         this.bits = 1024;
         return this;
     }
 
-    public TezGenKey_Select_Rsa propertyBits2048(){
+    public TezGenKey_Handle_Rsa propertyBits2048(){
         this.bits = 2048;
         return this;
     }
 
-    public TezGenKey_Select_Rsa propertyBits(int bits){
+    public TezGenKey_Handle_Rsa propertyBits(int bits){
         this.bits = bits;
         return this;
     }
@@ -77,7 +77,7 @@ public class TezGenKey_Select_Rsa extends TezCommon_Gen<EzKeyPairRsa> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Select_Rsa() {
+    TezGenKey_Handle_Rsa() {
     }
 
     @Override

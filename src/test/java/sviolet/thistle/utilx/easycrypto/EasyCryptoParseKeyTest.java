@@ -26,19 +26,13 @@ import sviolet.thistle.utilx.ezcrypto.EasyCrypto;
 import java.io.File;
 import java.security.NoSuchAlgorithmException;
 
-public class EasyCryptoFromFileTest {
+public class EasyCryptoParseKeyTest {
 
     @Test
-    public void aes() throws IllegalParamException, NoSuchAlgorithmException {
-//        EasyCrypto.from(new File(""))
-//                .toObject()
-//                .propertyLimit(1024 * 1024)
-//                .
-    }
-
-    @Test
-    public void sha() throws IllegalParamException {
-
+    public void aes() throws Exception {
+        EasyCrypto.parseKey("")
+                .propertyTypeBase64()
+                .
     }
 
 }

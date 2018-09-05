@@ -20,39 +20,29 @@
 package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
+import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
 
-import java.security.SecureRandom;
+import java.security.KeyPair;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
 
-public class TezGenKey_Select_Des extends TezCommon_Gen<byte[]> {
+public class TezGenKey_Handle_Ecc extends TezCommon_Gen<EzKeyPairEcc> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "DES";
+    private static final String KEY_ALGORITHM = "EC";
 
-    private int bits = 56;
-    private byte[] seed;
-    private SecureRandom secureRandom;
+    private String type = "secp256r1";
 
-    public TezGenKey_Select_Des propertyBits64(){
-        this.bits = 56;
+    public TezGenKey_Handle_Ecc propertyTypeSECP256R1(){
+        this.type = "secp256r1";
         return this;
     }
 
-    public TezGenKey_Select_Des propertyBits(int bits){
-        this.bits = bits;
-        return this;
-    }
-
-    public TezGenKey_Select_Des optionSeed(byte[] seed) {
-        this.seed = seed;
-        return this;
-    }
-
-    public TezGenKey_Select_Des optionSecureRandom(SecureRandom secureRandom){
-        this.secureRandom = secureRandom;
+    public TezGenKey_Handle_Ecc propertyType(String type){
+        this.type = type;
         return this;
     }
 
@@ -60,8 +50,8 @@ public class TezGenKey_Select_Des extends TezCommon_Gen<byte[]> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezGenKey_Encode_Bytes2Encoded continueEncode(){
-        return new TezGenKey_Encode_Bytes2Encoded(this);
+    public TezGenKey_Encode_KeyPair2Encoded continueEncode(){
+        return new TezGenKey_Encode_KeyPair2Encoded(this);
     }
 
     /* *****************************************************************************************************************
@@ -69,12 +59,12 @@ public class TezGenKey_Select_Des extends TezCommon_Gen<byte[]> {
      * *****************************************************************************************************************/
 
     @Override
-    public byte[] get() throws EzException {
+    public EzKeyPairEcc get() throws EzException {
         return super.get();
     }
 
     @Override
-    public byte[] get(EzExceptionHandler exceptionHandler) {
+    public EzKeyPairEcc get(EzExceptionHandler exceptionHandler) {
         return super.get(exceptionHandler);
     }
 
@@ -82,21 +72,16 @@ public class TezGenKey_Select_Des extends TezCommon_Gen<byte[]> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Select_Des() {
+    TezGenKey_Handle_Ecc() {
     }
 
     @Override
-    byte[] onGenerate() throws Exception {
-        if (bits <= 0) {
-            throw new IllegalParamException("bits <= 0");
+    EzKeyPairEcc onGenerate() throws Exception {
+        if (type == null) {
+            throw new IllegalParamException("type is null");
         }
-        if (secureRandom != null) {
-            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
-        } else if (seed != null) {
-            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
-        } else {
-            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
-        }
+        KeyPair keyPair = BaseAsymKeyGenerator.generateEcKeyPair(type, KEY_ALGORITHM);
+        return new EzKeyPairEcc((ECPublicKey) keyPair.getPublic(), (ECPrivateKey) keyPair.getPrivate());
     }
 
 }

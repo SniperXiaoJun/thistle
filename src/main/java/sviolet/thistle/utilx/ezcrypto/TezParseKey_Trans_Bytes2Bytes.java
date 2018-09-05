@@ -71,6 +71,42 @@ public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]
      * select选择流程
      * *****************************************************************************************************************/
 
+    public TezParseKey_Handle_Symmetry selectAES(){
+        return new TezParseKey_Handle_Symmetry(this);
+    }
+
+    public TezParseKey_Handle_Symmetry selectDES(){
+        return new TezParseKey_Handle_Symmetry(this);
+    }
+
+    public TezParseKey_Handle_Symmetry selectDESEDE(){
+        return new TezParseKey_Handle_Symmetry(this);
+    }
+
+    public TezParseKey_Handle_RsaPri selectRSAPrivate(){
+        return new TezParseKey_Handle_RsaPri(this);
+    }
+
+    public TezParseKey_Handle_RsaPub selectRSAPublic(){
+        return new TezParseKey_Handle_RsaPub(this);
+    }
+
+    public TezParseKey_Handle_EccPri selectECCPrivate(){
+        return new TezParseKey_Handle_EccPri(this);
+    }
+
+    public TezParseKey_Handle_EccPub selectECCPublic(){
+        return new TezParseKey_Handle_EccPub(this);
+    }
+
+    /* *****************************************************************************************************************
+     * continue继续流程
+     * *****************************************************************************************************************/
+
+    public TezParseKey_Trans_Bytes2Bytes continueTranscode(){
+        return new TezParseKey_Trans_Bytes2Bytes(this);
+    }
+
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/

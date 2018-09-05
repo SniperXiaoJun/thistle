@@ -19,24 +19,50 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import java.io.File;
+import sviolet.thistle.entity.IllegalParamException;
+import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
 
-public class TezParseKey_Read_File2Bytes extends TezCommon_Proc<File, byte[]> {
+import java.security.SecureRandom;
+
+public class TezGenKey_Handle_Aes extends TezCommon_Gen<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private int limit = 4 * 1024 * 1024;
-    private int buffSize = 1024;
+    private static final String KEY_ALGORITHM = "AES";
 
-    public TezParseKey_Read_File2Bytes propertyLimit(int maxLength) {
-        this.limit = maxLength;
+    private int bits = 128;
+    private byte[] seed;
+    private SecureRandom secureRandom;
+
+    public TezGenKey_Handle_Aes propertyBits128(){
+        this.bits = 128;
         return this;
     }
 
-    public TezParseKey_Read_File2Bytes propertyBuffSize(int buffSize) {
-        this.buffSize = buffSize;
+    public TezGenKey_Handle_Aes propertyBits192(){
+        this.bits = 192;
+        return this;
+    }
+
+    public TezGenKey_Handle_Aes propertyBits256(){
+        this.bits = 256;
+        return this;
+    }
+
+    public TezGenKey_Handle_Aes propertyBits(int bits){
+        this.bits = bits;
+        return this;
+    }
+
+    public TezGenKey_Handle_Aes optionSeed(byte[] seed) {
+        this.seed = seed;
+        return this;
+    }
+
+    public TezGenKey_Handle_Aes optionSecureRandom(SecureRandom secureRandom){
+        this.secureRandom = secureRandom;
         return this;
     }
 
@@ -44,28 +70,43 @@ public class TezParseKey_Read_File2Bytes extends TezCommon_Proc<File, byte[]> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezParseKey_Trans_Bytes2Bytes continueTranscode(){
-        return new TezParseKey_Trans_Bytes2Bytes(this);
+    public TezGenKey_Encode_Bytes2Encoded continueEncode(){
+        return new TezGenKey_Encode_Bytes2Encoded(this);
     }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
+    @Override
+    public byte[] get() throws EzException {
+        return super.get();
+    }
+
+    @Override
+    public byte[] get(EzExceptionHandler exceptionHandler) {
+        return super.get(exceptionHandler);
+    }
+
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Read_File2Bytes(TezCommon_Proc<?, ?> previous) {
-        super(previous);
+    TezGenKey_Handle_Aes() {
     }
 
     @Override
-    byte[] onProcess(File input) throws Exception {
-        if (input == null) {
-            return null;
+    byte[] onGenerate() throws Exception {
+        if (bits <= 0) {
+            throw new IllegalParamException("bits <= 0");
         }
-        return TezCommon_Util_File.readAll(input, limit, buffSize);
+        if (secureRandom != null) {
+            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
+        } else if (seed != null) {
+            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
+        } else {
+            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
+        }
     }
 
 }
