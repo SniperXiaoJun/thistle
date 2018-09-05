@@ -34,7 +34,7 @@ public class EasyCryptoGenKeyTest {
         String key = EasyCrypto.generateKey()
                 .selectAES()
                 .propertyBits256()
-                .continueEncode()
+                .continueEncoding()
                 .propertyTypeHex()
                 .get();
 
@@ -45,7 +45,7 @@ public class EasyCryptoGenKeyTest {
                 .selectAES()
                 .propertyBits128()
                 .optionSeed("123456".getBytes())
-                .continueEncode()
+                .continueEncoding()
                 .propertyTypeBase64()
                 .get();
 
@@ -56,7 +56,7 @@ public class EasyCryptoGenKeyTest {
                 .selectAES()
                 .propertyBits128()
                 .optionSecureRandom(new SecureRandom())
-                .continueEncode()
+                .continueEncoding()
                 .propertyTypeBase64()
                 .get();
 
@@ -70,7 +70,7 @@ public class EasyCryptoGenKeyTest {
         String key = EasyCrypto.generateKey()
                 .selectDES()
                 .propertyBits64()
-                .continueEncode()
+                .continueEncoding()
                 .propertyTypeHex()
                 .get();
 
@@ -84,7 +84,7 @@ public class EasyCryptoGenKeyTest {
         String key = EasyCrypto.generateKey()
                 .selectDESEDE()
                 .propertyBits128()
-                .continueEncode()
+                .continueEncoding()
                 .propertyTypeHex()
                 .get();
 
@@ -92,8 +92,8 @@ public class EasyCryptoGenKeyTest {
 
         key = EasyCrypto.generateKey()
                 .selectDESEDE()
-                .propertyBits128()
-                .continueEncode()
+                .propertyBits192()
+                .continueEncoding()
                 .propertyTypeBase64()
                 .get();
 
@@ -107,7 +107,7 @@ public class EasyCryptoGenKeyTest {
         String key = EasyCrypto.generateKey()
                 .selectSHA("123456".getBytes())
                 .propertyBits64()
-                .continueEncode()
+                .continueEncoding()
                 .propertyTypeBase64()
                 .get();
 
@@ -116,7 +116,7 @@ public class EasyCryptoGenKeyTest {
         key = EasyCrypto.generateKey()
                 .selectSHA("123456".getBytes())
                 .propertyBits128()
-                .continueEncode()
+                .continueEncoding()
                 .propertyTypeHex()
                 .get();
 
@@ -125,7 +125,7 @@ public class EasyCryptoGenKeyTest {
         key = EasyCrypto.generateKey()
                 .selectSHA("123456".getBytes())
                 .propertyBits192()
-                .continueEncode()
+                .continueEncoding()
                 .propertyTypeHex()
                 .get();
 
@@ -134,7 +134,7 @@ public class EasyCryptoGenKeyTest {
         key = EasyCrypto.generateKey()
                 .selectSHA("123456".getBytes())
                 .propertyBits256()
-                .continueEncode()
+                .continueEncoding()
                 .propertyTypeHex()
                 .get();
 
@@ -143,32 +143,29 @@ public class EasyCryptoGenKeyTest {
     }
 
     @Test
-    public void rsa() throws Exception {
+    public void rsaAndEcc() throws Exception {
 
         EzKeyPairEncoded keyPairEncoded = EasyCrypto.generateKey()
                 .selectRSA()
                 .propertyBits1024()
-                .continueEncode()
+                .continueEncoding()
                 .propertyPublicKeyX509()
                 .propertyPrivateKeyPKCS8()
                 .propertyEncodeBase64()
                 .get();
 
-        System.out.println(keyPairEncoded.getPublicKey());
-        System.out.println(keyPairEncoded.getPrivateKey());
+        System.out.println(keyPairEncoded);
 
         keyPairEncoded = EasyCrypto.generateKey()
-                .selectECDSA()
+                .selectECC()
                 .propertyTypeSECP256R1()
-                .continueEncode()
+                .continueEncoding()
                 .propertyPublicKeyX509()
                 .propertyPrivateKeyPKCS8()
                 .propertyEncodeBase64()
                 .get();
 
-        System.out.println(keyPairEncoded.getPublicKey());
-        System.out.println(keyPairEncoded.getPrivateKey());
-
+        System.out.println(keyPairEncoded);
     }
 
 }

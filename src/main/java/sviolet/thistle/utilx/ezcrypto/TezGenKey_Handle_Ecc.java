@@ -50,7 +50,7 @@ public class TezGenKey_Handle_Ecc extends TezCommon_Gen<EzKeyPairEcc> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezGenKey_Encode_KeyPair2Encoded continueEncode(){
+    public TezGenKey_Encode_KeyPair2Encoded continueEncoding(){
         return new TezGenKey_Encode_KeyPair2Encoded(this);
     }
 

@@ -21,6 +21,7 @@ package sviolet.thistle.utilx.ezcrypto;
 
 import java.security.interfaces.ECPrivateKey;
 import java.security.interfaces.ECPublicKey;
+import java.security.spec.InvalidKeySpecException;
 
 public class EzKeyPairEcc extends EzKeyPair<ECPublicKey, ECPrivateKey> {
 
@@ -34,6 +35,21 @@ public class EzKeyPairEcc extends EzKeyPair<ECPublicKey, ECPrivateKey> {
     @Override
     public String getKeyAlgorithm() {
         return "EC";
+    }
+
+    @Override
+    public String toString() {
+        try {
+            return "EzKeyPairEcc{" +
+                    "\npublicKey='" + getPublicKeyX509String() + '\'' +
+                    "\nprivateKey='" + getPrivateKeyPKCS8String() + '\'' +
+                    "\n}";
+        } catch (InvalidKeySpecException e) {
+            return "EzKeyPairEcc{" +
+                    "\npublicKey=invalid" +
+                    "\nprivateKey=invalid" +
+                    "\n}";
+        }
     }
 
 }

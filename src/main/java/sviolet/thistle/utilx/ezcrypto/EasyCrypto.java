@@ -30,20 +30,20 @@ public class EasyCrypto {
      * parseKey 数据/对象 -> 密钥
      * *****************************************************************************************************************/
 
-    public static TezParseKey_Src_Bytes parseKey(byte[] data) {
-        return new TezParseKey_Src_Bytes(data);
+    public static TezParseKey_Trans_Bytes2Bytes parseKey(byte[] data) {
+        return new TezParseKey_Trans_Bytes2Bytes(new TezParseKey_Src_Bytes(data));
     }
 
     public static TezParseKey_Read_String2Bytes parseKey(String data) {
         return new TezParseKey_Read_String2Bytes(new TezParseKey_Src_String(data));
     }
 
-    public static TezParseKey_Src_InStream parseKey(InputStream inputStream) {
-        return new TezParseKey_Src_InStream(inputStream);
+    public static TezParseKey_Read_InStream2Bytes parseKey(InputStream inputStream) {
+        return new TezParseKey_Read_InStream2Bytes(new TezParseKey_Src_InStream(inputStream));
     }
 
-    public static TezParseKey_Src_File parseKey(File file) {
-        return new TezParseKey_Src_File(file);
+    public static TezParseKey_Read_File2Bytes parseKey(File file) {
+        return new TezParseKey_Read_File2Bytes(new TezParseKey_Src_File(file));
     }
 
     public static TezParseKey_Src_ExpMod parseKey(EzExponentAndModulus exponentAndModule) {

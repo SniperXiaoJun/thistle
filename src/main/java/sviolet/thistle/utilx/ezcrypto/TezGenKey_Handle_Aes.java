@@ -70,7 +70,7 @@ public class TezGenKey_Handle_Aes extends TezCommon_Gen<byte[]> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezGenKey_Encode_Bytes2Encoded continueEncode(){
+    public TezGenKey_Encode_Bytes2Encoded continueEncoding(){
         return new TezGenKey_Encode_Bytes2Encoded(this);
     }
 

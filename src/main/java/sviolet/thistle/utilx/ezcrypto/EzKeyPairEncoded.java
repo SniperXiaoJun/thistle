@@ -47,4 +47,12 @@ public class EzKeyPairEncoded {
     public void setPrivateKey(String privateKey) {
         this.privateKey = privateKey;
     }
+
+    @Override
+    public String toString() {
+        return "EzKeyPairEncoded{" +
+                "\npublicKey='" + publicKey + '\'' +
+                "\nprivateKey='" + privateKey + '\'' +
+                "\n}";
+    }
 }

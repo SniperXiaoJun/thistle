@@ -30,7 +30,7 @@ public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private Type type;
+    private Type type = Type.RAW;
     private String charset = "UTF-8";
     private EzFilterBytesToBytes bytesToBytesFilter;
 
@@ -38,7 +38,8 @@ public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]
         DECODE_AS_BASE64,
         DECODE_AS_HEX,
         DECODE_AS_PEM,
-        TRANSCODE_BY_FILTER
+        TRANSCODE_BY_FILTER,
+        RAW
     }
 
     public TezParseKey_Trans_Bytes2Bytes propertyAsBase64() {
@@ -53,6 +54,11 @@ public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]
 
     public TezParseKey_Trans_Bytes2Bytes propertyAsPem() {
         this.type = Type.DECODE_AS_PEM;
+        return this;
+    }
+
+    public TezParseKey_Trans_Bytes2Bytes propertyAsRaw() {
+        this.type = Type.RAW;
         return this;
     }
 
@@ -103,7 +109,7 @@ public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezParseKey_Trans_Bytes2Bytes continueTranscode(){
+    public TezParseKey_Trans_Bytes2Bytes continueTranscoding(){
         return new TezParseKey_Trans_Bytes2Bytes(this);
     }
 
@@ -134,6 +140,8 @@ public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]
                 return ByteUtils.hexToBytes(new String(input, charset));
             case DECODE_AS_PEM:
                 return PEMEncodeUtils.pemEncodedToX509EncodedBytes(new String(input, charset));
+            case RAW:
+                return input;
             case TRANSCODE_BY_FILTER:
                 if (bytesToBytesFilter == null) {
                     throw new IllegalParamException("bytesToBytesFilter is null");

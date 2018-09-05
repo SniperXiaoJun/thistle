@@ -19,8 +19,12 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
+import sviolet.thistle.util.conversion.Base64Utils;
+import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
+
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
 
 public abstract class EzKeyPair <PublicType extends PublicKey, PrivateType extends PrivateKey> {
 
@@ -49,6 +53,14 @@ public abstract class EzKeyPair <PublicType extends PublicKey, PrivateType exten
 
     public void setPrivateKey(PrivateType privateKey) {
         this.privateKey = privateKey;
+    }
+
+    public String getPublicKeyX509String() throws InvalidKeySpecException {
+        return Base64Utils.encodeToString(BaseAsymKeyGenerator.encodePublicKeyToX509(publicKey, getKeyAlgorithm()));
+    }
+
+    public String getPrivateKeyPKCS8String() throws InvalidKeySpecException {
+        return Base64Utils.encodeToString(BaseAsymKeyGenerator.encodePrivateKeyToPKCS8(privateKey, getKeyAlgorithm()));
     }
 
     public abstract String getKeyAlgorithm();

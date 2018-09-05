@@ -55,7 +55,7 @@ public class TezGenKey_Handle_Rsa extends TezCommon_Gen<EzKeyPairRsa> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezGenKey_Encode_KeyPair2Encoded continueEncode(){
+    public TezGenKey_Encode_KeyPair2Encoded continueEncoding(){
         return new TezGenKey_Encode_KeyPair2Encoded(this);
     }
 

@@ -21,6 +21,7 @@ package sviolet.thistle.utilx.ezcrypto;
 
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
+import java.security.spec.InvalidKeySpecException;
 
 public class EzKeyPairRsa extends EzKeyPair<RSAPublicKey, RSAPrivateKey> {
 
@@ -36,4 +37,18 @@ public class EzKeyPairRsa extends EzKeyPair<RSAPublicKey, RSAPrivateKey> {
         return "RSA";
     }
 
+    @Override
+    public String toString() {
+        try {
+            return "EzKeyPairRsa{" +
+                    "\npublicKey='" + getPublicKeyX509String() + '\'' +
+                    "\nprivateKey='" + getPrivateKeyPKCS8String() + '\'' +
+                    "\n}";
+        } catch (InvalidKeySpecException e) {
+            return "EzKeyPairRsa{" +
+                    "\npublicKey=invalid" +
+                    "\nprivateKey=invalid" +
+                    "\n}";
+        }
+    }
 }
