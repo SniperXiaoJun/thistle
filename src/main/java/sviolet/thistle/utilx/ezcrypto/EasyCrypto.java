@@ -21,10 +21,65 @@ package sviolet.thistle.utilx.ezcrypto;
 
 import java.io.File;
 import java.io.InputStream;
+import java.security.cert.Certificate;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
 public class EasyCrypto {
+
+    /* *****************************************************************************************************************
+     * handle 数据加密/解密/签名/验签/摘要
+     * *****************************************************************************************************************/
+
+    public static void handle(byte[] data) {
+        //TODO
+    }
+
+    public static void handle(String data) {
+        //TODO
+    }
+
+    public static void from(InputStream inputStream) {
+        //TODO
+    }
+
+    public static void from(File file) {
+        //TODO
+    }
+
+    /* *****************************************************************************************************************
+     * formatKey 密钥 -> 数据
+     * *****************************************************************************************************************/
+
+    public static void formatKey(byte[] key) {
+        //TODO
+    }
+
+    public static void formatKey(RSAPublicKey rsaPublicKey) {
+        //TODO
+    }
+
+    public static void formatKey(RSAPrivateKey rsaPrivateKey) {
+        //TODO
+    }
+
+    public static void formatKey(ECPublicKey ecPublicKey) {
+        //TODO
+    }
+
+    public static void formatKey(ECPrivateKey ecPrivateKey) {
+        //TODO
+    }
+
+    /* *****************************************************************************************************************
+     * formatCertificate 证书 -> 数据
+     * *****************************************************************************************************************/
+
+    public static void formatCertificate(Certificate certificate) {
+        //TODO
+    }
 
     /* *****************************************************************************************************************
      * parseKey 数据/对象 -> 密钥
@@ -47,11 +102,33 @@ public class EasyCrypto {
     }
 
     public static TezParseKey_Src_ExpMod parseKey(EzExponentAndModulus exponentAndModule) {
+        //TODO
         return new TezParseKey_Src_ExpMod(exponentAndModule);
     }
 
     public static TezParseKey_Src_RsaPriKey parseKey(RSAPrivateKey rsaPrivateKey) {
+        //TODO
         return new TezParseKey_Src_RsaPriKey(rsaPrivateKey);
+    }
+
+    /* *****************************************************************************************************************
+     * parseCertificate 数据/对象 -> 证书
+     * *****************************************************************************************************************/
+
+    public static void parseCertificate(byte[] data) {
+        //TODO
+    }
+
+    public static void parseCertificate(String data) {
+        //TODO
+    }
+
+    public static void parseCertificate(InputStream inputStream) {
+        //TODO
+    }
+
+    public static void parseCertificate(File file) {
+        //TODO
     }
 
     /* *****************************************************************************************************************
@@ -67,6 +144,7 @@ public class EasyCrypto {
      * *****************************************************************************************************************/
 
     public static EasyCryptoGenCert generateCertificate(){
+        //TODO
         return generateCertificate;
     }
 
