@@ -24,7 +24,7 @@ import sviolet.thistle.util.conversion.Base64Utils;
 import sviolet.thistle.util.conversion.ByteUtils;
 import sviolet.thistle.util.crypto.PEMEncodeUtils;
 
-public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]> {
+public class TezParsKy_Trs_B2B extends TezCom_Proc<byte[], byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -42,33 +42,33 @@ public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]
         RAW
     }
 
-    public TezParseKey_Trans_Bytes2Bytes propertyAsBase64() {
+    public TezParsKy_Trs_B2B propertyAsBase64() {
         this.type = Type.DECODE_AS_BASE64;
         return this;
     }
 
-    public TezParseKey_Trans_Bytes2Bytes propertyAsHex() {
+    public TezParsKy_Trs_B2B propertyAsHex() {
         this.type = Type.DECODE_AS_HEX;
         return this;
     }
 
-    public TezParseKey_Trans_Bytes2Bytes propertyAsPem() {
+    public TezParsKy_Trs_B2B propertyAsPem() {
         this.type = Type.DECODE_AS_PEM;
         return this;
     }
 
-    public TezParseKey_Trans_Bytes2Bytes propertyAsRaw() {
+    public TezParsKy_Trs_B2B propertyAsRaw() {
         this.type = Type.RAW;
         return this;
     }
 
-    public TezParseKey_Trans_Bytes2Bytes propertyByFilter(EzFilterBytesToBytes bytesToBytesFilter){
+    public TezParsKy_Trs_B2B propertyByFilter(EzFilterBytesToBytes bytesToBytesFilter){
         this.type = Type.TRANSCODE_BY_FILTER;
         this.bytesToBytesFilter = bytesToBytesFilter;
         return this;
     }
 
-    public TezParseKey_Trans_Bytes2Bytes optionCharset(String charset) {
+    public TezParsKy_Trs_B2B optionCharset(String charset) {
         this.charset = charset;
         return this;
     }
@@ -77,40 +77,40 @@ public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]
      * select选择流程
      * *****************************************************************************************************************/
 
-    public TezParseKey_Handle_Symmetry selectAES(){
-        return new TezParseKey_Handle_Symmetry(this);
+    public TezParsKy_Hand_Symm selectAES(){
+        return new TezParsKy_Hand_Symm(this);
     }
 
-    public TezParseKey_Handle_Symmetry selectDES(){
-        return new TezParseKey_Handle_Symmetry(this);
+    public TezParsKy_Hand_Symm selectDES(){
+        return new TezParsKy_Hand_Symm(this);
     }
 
-    public TezParseKey_Handle_Symmetry selectDESEDE(){
-        return new TezParseKey_Handle_Symmetry(this);
+    public TezParsKy_Hand_Symm selectDESEDE(){
+        return new TezParsKy_Hand_Symm(this);
     }
 
-    public TezParseKey_Handle_RsaPri selectRSAPrivate(){
-        return new TezParseKey_Handle_RsaPri(this);
+    public TezParsKy_Hand_RsaPri selectRSAPrivate(){
+        return new TezParsKy_Hand_RsaPri(this);
     }
 
-    public TezParseKey_Handle_RsaPub selectRSAPublic(){
-        return new TezParseKey_Handle_RsaPub(this);
+    public TezParsKy_Hand_RsaPub selectRSAPublic(){
+        return new TezParsKy_Hand_RsaPub(this);
     }
 
-    public TezParseKey_Handle_EccPri selectECCPrivate(){
-        return new TezParseKey_Handle_EccPri(this);
+    public TezParsKy_Hand_EccPri selectECCPrivate(){
+        return new TezParsKy_Hand_EccPri(this);
     }
 
-    public TezParseKey_Handle_EccPub selectECCPublic(){
-        return new TezParseKey_Handle_EccPub(this);
+    public TezParsKy_Hand_EccPub selectECCPublic(){
+        return new TezParsKy_Hand_EccPub(this);
     }
 
     /* *****************************************************************************************************************
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezParseKey_Trans_Bytes2Bytes continueTranscoding(){
-        return new TezParseKey_Trans_Bytes2Bytes(this);
+    public TezParsKy_Trs_B2B continueTranscoding(){
+        return new TezParsKy_Trs_B2B(this);
     }
 
     /* *****************************************************************************************************************
@@ -121,7 +121,7 @@ public class TezParseKey_Trans_Bytes2Bytes extends TezCommon_Proc<byte[], byte[]
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Trans_Bytes2Bytes(TezCommon_Proc<?, ?> previous) {
+    TezParsKy_Trs_B2B(TezCom_Proc<?, ?> previous) {
         super(previous);
     }
 

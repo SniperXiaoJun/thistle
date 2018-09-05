@@ -19,15 +19,55 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public class TezParseKey_Handle_Symmetry extends TezCommon_Proc<byte[], byte[]> {
+import sviolet.thistle.entity.IllegalParamException;
+import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
+
+import java.security.SecureRandom;
+
+public class TezGenKy_Hand_DesEde extends TezCom_Gen<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
+    private static final String KEY_ALGORITHM = "DESede";
+
+    private int bits = 112;
+    private byte[] seed;
+    private SecureRandom secureRandom;
+
+    public TezGenKy_Hand_DesEde propertyBits128(){
+        this.bits = 112;
+        return this;
+    }
+
+    public TezGenKy_Hand_DesEde propertyBits192(){
+        this.bits = 168;
+        return this;
+    }
+
+    public TezGenKy_Hand_DesEde propertyBits(int bits){
+        this.bits = bits;
+        return this;
+    }
+
+    public TezGenKy_Hand_DesEde propertySeed(byte[] seed) {
+        this.seed = seed;
+        return this;
+    }
+
+    public TezGenKy_Hand_DesEde propertySecureRandom(SecureRandom secureRandom){
+        this.secureRandom = secureRandom;
+        return this;
+    }
+
     /* *****************************************************************************************************************
      * continue继续流程
      * *****************************************************************************************************************/
+
+    public TezGenKy_Encd_B2Encd continueEncoding(){
+        return new TezGenKy_Encd_B2Encd(this);
+    }
 
     /* *****************************************************************************************************************
      * get结束取值
@@ -47,13 +87,21 @@ public class TezParseKey_Handle_Symmetry extends TezCommon_Proc<byte[], byte[]> 
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Handle_Symmetry(TezCommon_Proc<?, ?> previous) {
-        super(previous);
+    TezGenKy_Hand_DesEde() {
     }
 
     @Override
-    byte[] onProcess(byte[] input) throws Exception {
-        return input;
+    byte[] onGenerate() throws Exception {
+        if (bits <= 0) {
+            throw new IllegalParamException("bits <= 0");
+        }
+        if (secureRandom != null) {
+            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
+        } else if (seed != null) {
+            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
+        } else {
+            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
+        }
     }
 
 }

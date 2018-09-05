@@ -19,26 +19,74 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public class TezParseKey_Src_ExpMod extends TezCommon_Src<EzExponentAndModulus> {
+import sviolet.thistle.entity.IllegalParamException;
+import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
+
+import java.security.KeyPair;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+
+public class TezGenKy_Hand_Rsa extends TezCom_Gen<EzKeyPairRsa> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
+    private static final String KEY_ALGORITHM = "RSA";
+
+    private int bits = 2048;
+
+    public TezGenKy_Hand_Rsa propertyBits1024(){
+        this.bits = 1024;
+        return this;
+    }
+
+    public TezGenKy_Hand_Rsa propertyBits2048(){
+        this.bits = 2048;
+        return this;
+    }
+
+    public TezGenKy_Hand_Rsa propertyBits(int bits){
+        this.bits = bits;
+        return this;
+    }
+
     /* *****************************************************************************************************************
-     * select选择流程
+     * continue继续流程
      * *****************************************************************************************************************/
+
+    public TezGenKy_Encd_KyPr2Encd continueEncoding(){
+        return new TezGenKy_Encd_KyPr2Encd(this);
+    }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
+    @Override
+    public EzKeyPairRsa get() throws EzException {
+        return super.get();
+    }
+
+    @Override
+    public EzKeyPairRsa get(EzExceptionHandler exceptionHandler) {
+        return super.get(exceptionHandler);
+    }
+
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Src_ExpMod(EzExponentAndModulus input) {
-        super(input);
+    TezGenKy_Hand_Rsa() {
+    }
+
+    @Override
+    EzKeyPairRsa onGenerate() throws Exception {
+        if (bits <= 0) {
+            throw new IllegalParamException("bits <= 0");
+        }
+        KeyPair keyPair = BaseAsymKeyGenerator.generateRsaKeyPair(bits, KEY_ALGORITHM);
+        return new EzKeyPairRsa((RSAPublicKey) keyPair.getPublic(), (RSAPrivateKey) keyPair.getPrivate());
     }
 
 }

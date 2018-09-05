@@ -85,30 +85,30 @@ public class EasyCrypto {
      * parseKey 数据/对象 -> 密钥
      * *****************************************************************************************************************/
 
-    public static TezParseKey_Trans_Bytes2Bytes parseKey(byte[] data) {
-        return new TezParseKey_Trans_Bytes2Bytes(new TezParseKey_Src_Bytes(data));
+    public static TezParsKy_Trs_B2B parseKey(byte[] data) {
+        return new TezParsKy_Trs_B2B(new TezParsKy_Src_B(data));
     }
 
-    public static TezParseKey_Read_String2Bytes parseKey(String data) {
-        return new TezParseKey_Read_String2Bytes(new TezParseKey_Src_String(data));
+    public static TezParsKy_Rd_Str2B parseKey(String data) {
+        return new TezParsKy_Rd_Str2B(new TezParsKy_Src_Str(data));
     }
 
-    public static TezParseKey_Read_InStream2Bytes parseKey(InputStream inputStream) {
-        return new TezParseKey_Read_InStream2Bytes(new TezParseKey_Src_InStream(inputStream));
+    public static TezParsKy_Rd_InStm2B parseKey(InputStream inputStream) {
+        return new TezParsKy_Rd_InStm2B(new TezParsKy_Src_InStm(inputStream));
     }
 
-    public static TezParseKey_Read_File2Bytes parseKey(File file) {
-        return new TezParseKey_Read_File2Bytes(new TezParseKey_Src_File(file));
+    public static TezParsKy_Rd_File2B parseKey(File file) {
+        return new TezParsKy_Rd_File2B(new TezParsKy_Src_File(file));
     }
 
-    public static TezParseKey_Src_ExpMod parseKey(EzExponentAndModulus exponentAndModule) {
+    public static TezParsKy_Src_ExpMod parseKey(EzExponentAndModulus exponentAndModule) {
         //TODO
-        return new TezParseKey_Src_ExpMod(exponentAndModule);
+        return new TezParsKy_Src_ExpMod(exponentAndModule);
     }
 
-    public static TezParseKey_Src_RsaPriKey parseKey(RSAPrivateKey rsaPrivateKey) {
+    public static TezParsKy_Src_RsaPriKy parseKey(RSAPrivateKey rsaPrivateKey) {
         //TODO
-        return new TezParseKey_Src_RsaPriKey(rsaPrivateKey);
+        return new TezParsKy_Src_RsaPriKy(rsaPrivateKey);
     }
 
     /* *****************************************************************************************************************

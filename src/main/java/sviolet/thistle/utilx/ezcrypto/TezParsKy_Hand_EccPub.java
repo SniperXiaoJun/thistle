@@ -20,29 +20,26 @@
 package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.conversion.Base64Utils;
-import sviolet.thistle.util.conversion.ByteUtils;
+import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
 
-public class TezGenKey_Encode_Bytes2Encoded extends TezCommon_Proc<byte[], String> {
+import java.security.interfaces.ECPublicKey;
+
+public class TezParsKy_Hand_EccPub extends TezCom_Proc<byte[], ECPublicKey> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private Type type = Type.BASE64;
+    private static final String KEY_ALGORITHM = "EC";
+
+    private Type type = Type.X509;
 
     private enum Type {
-        HEX,
-        BASE64
+        X509
     }
 
-    public TezGenKey_Encode_Bytes2Encoded propertyTypeHex(){
-        this.type = Type.HEX;
-        return this;
-    }
-
-    public TezGenKey_Encode_Bytes2Encoded propertyTypeBase64(){
-        this.type = Type.BASE64;
+    public TezParsKy_Hand_EccPub propertyTypeX509(){
+        this.type = Type.X509;
         return this;
     }
 
@@ -55,12 +52,12 @@ public class TezGenKey_Encode_Bytes2Encoded extends TezCommon_Proc<byte[], Strin
      * *****************************************************************************************************************/
 
     @Override
-    public String get() throws EzException {
+    public ECPublicKey get() throws EzException {
         return super.get();
     }
 
     @Override
-    public String get(EzExceptionHandler exceptionHandler) {
+    public ECPublicKey get(EzExceptionHandler exceptionHandler) {
         return super.get(exceptionHandler);
     }
 
@@ -68,12 +65,12 @@ public class TezGenKey_Encode_Bytes2Encoded extends TezCommon_Proc<byte[], Strin
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Encode_Bytes2Encoded(TezCommon_Proc<?, ?> previous) {
+    TezParsKy_Hand_EccPub(TezCom_Proc<?, ?> previous) {
         super(previous);
     }
 
     @Override
-    String onProcess(byte[] input) throws Exception {
+    ECPublicKey onProcess(byte[] input) throws Exception {
         if (input == null) {
             return null;
         }
@@ -81,10 +78,8 @@ public class TezGenKey_Encode_Bytes2Encoded extends TezCommon_Proc<byte[], Strin
             throw new IllegalParamException("type is null");
         }
         switch (type) {
-            case HEX:
-                return ByteUtils.bytesToHex(input);
-            case BASE64:
-                return Base64Utils.encodeToString(input);
+            case X509:
+                return (ECPublicKey) BaseAsymKeyGenerator.parsePublicKeyByX509(input, KEY_ALGORITHM);
             default:
                 throw new IllegalParamException("type is invalid");
         }

@@ -19,29 +19,11 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
-
-import java.security.interfaces.RSAPrivateKey;
-
-public class TezParseKey_Handle_RsaPri extends TezCommon_Proc<byte[], RSAPrivateKey> {
+public abstract class TezCom_Gen<T> extends TezCom_Proc<T, T> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
-
-    private static final String KEY_ALGORITHM = "RSA";
-
-    private Type type = Type.PKCS8;
-
-    private enum Type {
-        PKCS8
-    }
-
-    public TezParseKey_Handle_RsaPri propertyTypePKCS8(){
-        this.type = Type.PKCS8;
-        return this;
-    }
 
     /* *****************************************************************************************************************
      * continue继续流程
@@ -51,38 +33,19 @@ public class TezParseKey_Handle_RsaPri extends TezCommon_Proc<byte[], RSAPrivate
      * get结束取值
      * *****************************************************************************************************************/
 
-    @Override
-    public RSAPrivateKey get() throws EzException {
-        return super.get();
-    }
-
-    @Override
-    public RSAPrivateKey get(EzExceptionHandler exceptionHandler) {
-        return super.get(exceptionHandler);
-    }
-
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Handle_RsaPri(TezCommon_Proc<?, ?> previous) {
-        super(previous);
+    TezCom_Gen() {
+        super(null);
     }
 
     @Override
-    RSAPrivateKey onProcess(byte[] input) throws Exception {
-        if (input == null) {
-            return null;
-        }
-        if (type == null) {
-            throw new IllegalParamException("type is null");
-        }
-        switch (type) {
-            case PKCS8:
-                return (RSAPrivateKey) BaseAsymKeyGenerator.parsePrivateKeyByPKCS8(input, KEY_ALGORITHM);
-            default:
-                throw new IllegalParamException("type is invalid");
-        }
+    final T onProcess(T input) throws Exception {
+        return onGenerate();
     }
+
+    abstract T onGenerate() throws Exception ;
 
 }

@@ -20,39 +20,29 @@
 package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
+import sviolet.thistle.util.conversion.Base64Utils;
+import sviolet.thistle.util.conversion.ByteUtils;
 
-import java.security.SecureRandom;
-
-public class TezGenKey_Handle_Des extends TezCommon_Gen<byte[]> {
+public class TezGenKy_Encd_B2Encd extends TezCom_Proc<byte[], String> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "DES";
+    private Type type = Type.BASE64;
 
-    private int bits = 56;
-    private byte[] seed;
-    private SecureRandom secureRandom;
+    private enum Type {
+        HEX,
+        BASE64
+    }
 
-    public TezGenKey_Handle_Des propertyBits64(){
-        this.bits = 56;
+    public TezGenKy_Encd_B2Encd propertyTypeHex(){
+        this.type = Type.HEX;
         return this;
     }
 
-    public TezGenKey_Handle_Des propertyBits(int bits){
-        this.bits = bits;
-        return this;
-    }
-
-    public TezGenKey_Handle_Des optionSeed(byte[] seed) {
-        this.seed = seed;
-        return this;
-    }
-
-    public TezGenKey_Handle_Des optionSecureRandom(SecureRandom secureRandom){
-        this.secureRandom = secureRandom;
+    public TezGenKy_Encd_B2Encd propertyTypeBase64(){
+        this.type = Type.BASE64;
         return this;
     }
 
@@ -60,21 +50,17 @@ public class TezGenKey_Handle_Des extends TezCommon_Gen<byte[]> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezGenKey_Encode_Bytes2Encoded continueEncoding(){
-        return new TezGenKey_Encode_Bytes2Encoded(this);
-    }
-
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
     @Override
-    public byte[] get() throws EzException {
+    public String get() throws EzException {
         return super.get();
     }
 
     @Override
-    public byte[] get(EzExceptionHandler exceptionHandler) {
+    public String get(EzExceptionHandler exceptionHandler) {
         return super.get(exceptionHandler);
     }
 
@@ -82,20 +68,25 @@ public class TezGenKey_Handle_Des extends TezCommon_Gen<byte[]> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Handle_Des() {
+    TezGenKy_Encd_B2Encd(TezCom_Proc<?, ?> previous) {
+        super(previous);
     }
 
     @Override
-    byte[] onGenerate() throws Exception {
-        if (bits <= 0) {
-            throw new IllegalParamException("bits <= 0");
+    String onProcess(byte[] input) throws Exception {
+        if (input == null) {
+            return null;
         }
-        if (secureRandom != null) {
-            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
-        } else if (seed != null) {
-            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
-        } else {
-            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
+        if (type == null) {
+            throw new IllegalParamException("type is null");
+        }
+        switch (type) {
+            case HEX:
+                return ByteUtils.bytesToHex(input);
+            case BASE64:
+                return Base64Utils.encodeToString(input);
+            default:
+                throw new IllegalParamException("type is invalid");
         }
     }
 

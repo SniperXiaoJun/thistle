@@ -19,15 +19,34 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public abstract class TezCommon_Src<T> extends TezCommon_Proc<T, T> {
+import java.io.File;
+
+public class TezParsKy_Rd_File2B extends TezCom_Proc<File, byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
+    private int limit = 4 * 1024 * 1024;
+    private int buffSize = 1024;
+
+    public TezParsKy_Rd_File2B propertyLimit(int maxLength) {
+        this.limit = maxLength;
+        return this;
+    }
+
+    public TezParsKy_Rd_File2B propertyBuffSize(int buffSize) {
+        this.buffSize = buffSize;
+        return this;
+    }
+
     /* *****************************************************************************************************************
-     * select选择流程
+     * continue继续流程
      * *****************************************************************************************************************/
+
+    public TezParsKy_Trs_B2B continueTranscoding(){
+        return new TezParsKy_Trs_B2B(this);
+    }
 
     /* *****************************************************************************************************************
      * get结束取值
@@ -37,18 +56,16 @@ public abstract class TezCommon_Src<T> extends TezCommon_Proc<T, T> {
      * inner logic
      * *****************************************************************************************************************/
 
-    private T data;
-
-    TezCommon_Src(T input) {
-        super(null);
-        this.data = input;
+    TezParsKy_Rd_File2B(TezCom_Proc<?, ?> previous) {
+        super(previous);
     }
 
     @Override
-    final T onProcess(T input) throws Exception {
-        T output = data;
-        data = null;
-        return output;
+    byte[] onProcess(File input) throws Exception {
+        if (input == null) {
+            return null;
+        }
+        return TezCom_Util_File.readAll(input, limit, buffSize);
     }
 
 }

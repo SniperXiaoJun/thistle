@@ -20,34 +20,34 @@
 package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
+import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
 
-import java.security.KeyPair;
-import java.security.interfaces.RSAPrivateKey;
-import java.security.interfaces.RSAPublicKey;
-
-public class TezGenKey_Handle_Rsa extends TezCommon_Gen<EzKeyPairRsa> {
+public class TezGenKy_Hand_Sha extends TezCom_Gen<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "RSA";
+    private int bits = 128;
+    private byte[] seed;
 
-    private int bits = 2048;
-
-    public TezGenKey_Handle_Rsa propertyBits1024(){
-        this.bits = 1024;
+    public TezGenKy_Hand_Sha propertyBits64(){
+        this.bits = 64;
         return this;
     }
 
-    public TezGenKey_Handle_Rsa propertyBits2048(){
-        this.bits = 2048;
+    public TezGenKy_Hand_Sha propertyBits128(){
+        this.bits = 128;
         return this;
     }
 
-    public TezGenKey_Handle_Rsa propertyBits(int bits){
-        this.bits = bits;
+    public TezGenKy_Hand_Sha propertyBits192(){
+        this.bits = 192;
+        return this;
+    }
+
+    public TezGenKy_Hand_Sha propertyBits256(){
+        this.bits = 256;
         return this;
     }
 
@@ -55,8 +55,8 @@ public class TezGenKey_Handle_Rsa extends TezCommon_Gen<EzKeyPairRsa> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezGenKey_Encode_KeyPair2Encoded continueEncoding(){
-        return new TezGenKey_Encode_KeyPair2Encoded(this);
+    public TezGenKy_Encd_B2Encd continueEncoding(){
+        return new TezGenKy_Encd_B2Encd(this);
     }
 
     /* *****************************************************************************************************************
@@ -64,12 +64,12 @@ public class TezGenKey_Handle_Rsa extends TezCommon_Gen<EzKeyPairRsa> {
      * *****************************************************************************************************************/
 
     @Override
-    public EzKeyPairRsa get() throws EzException {
+    public byte[] get() throws EzException {
         return super.get();
     }
 
     @Override
-    public EzKeyPairRsa get(EzExceptionHandler exceptionHandler) {
+    public byte[] get(EzExceptionHandler exceptionHandler) {
         return super.get(exceptionHandler);
     }
 
@@ -77,16 +77,29 @@ public class TezGenKey_Handle_Rsa extends TezCommon_Gen<EzKeyPairRsa> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Handle_Rsa() {
+    TezGenKy_Hand_Sha(byte[] seed) {
+        this.seed = seed;
     }
 
     @Override
-    EzKeyPairRsa onGenerate() throws Exception {
+    byte[] onGenerate() throws Exception {
         if (bits <= 0) {
             throw new IllegalParamException("bits <= 0");
         }
-        KeyPair keyPair = BaseAsymKeyGenerator.generateRsaKeyPair(bits, KEY_ALGORITHM);
-        return new EzKeyPairRsa((RSAPublicKey) keyPair.getPublic(), (RSAPrivateKey) keyPair.getPrivate());
+        if (seed == null) {
+            throw new IllegalParamException("seed is null");
+        }
+        switch (bits) {
+            case 64:
+                return BaseKeyGenerator.generateShaKey64(seed);
+            case 128:
+                return BaseKeyGenerator.generateShaKey128(seed);
+            case 192:
+                return BaseKeyGenerator.generateShaKey192(seed);
+            case 256:
+                return BaseKeyGenerator.generateShaKey256(seed);
+            default:
+                throw new IllegalParamException("invalid bits : " + bits);
+        }
     }
-
 }

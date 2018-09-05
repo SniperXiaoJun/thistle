@@ -25,28 +25,28 @@ public class EasyCryptoGenKey {
      * select选择流程
      * *****************************************************************************************************************/
 
-    public TezGenKey_Handle_Rsa selectRSA(){
-        return new TezGenKey_Handle_Rsa();
+    public TezGenKy_Hand_Rsa selectRSA(){
+        return new TezGenKy_Hand_Rsa();
     }
 
-    public TezGenKey_Handle_Ecc selectECC(){
-        return new TezGenKey_Handle_Ecc();
+    public TezGenKy_Hand_Ecc selectECC(){
+        return new TezGenKy_Hand_Ecc();
     }
 
-    public TezGenKey_Handle_Aes selectAES(){
-        return new TezGenKey_Handle_Aes();
+    public TezGenKy_Hand_Aes selectAES(){
+        return new TezGenKy_Hand_Aes();
     }
 
-    public TezGenKey_Handle_Des selectDES(){
-        return new TezGenKey_Handle_Des();
+    public TezGenKy_Hand_Des selectDES(){
+        return new TezGenKy_Hand_Des();
     }
 
-    public TezGenKey_Handle_DesEde selectDESEDE(){
-        return new TezGenKey_Handle_DesEde();
+    public TezGenKy_Hand_DesEde selectDESEDE(){
+        return new TezGenKy_Hand_DesEde();
     }
 
-    public TezGenKey_Handle_Sha selectSHA(byte[] seed) {
-        return new TezGenKey_Handle_Sha(seed);
+    public TezGenKy_Hand_Sha selectSHA(byte[] seed) {
+        return new TezGenKy_Hand_Sha(seed);
     }
 
     /* *****************************************************************************************************************

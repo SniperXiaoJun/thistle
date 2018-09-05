@@ -19,24 +19,30 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import java.io.InputStream;
+import sviolet.thistle.entity.IllegalParamException;
+import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
 
-public class TezParseKey_Read_InStream2Bytes extends TezCommon_Proc<InputStream, byte[]> {
+import java.security.KeyPair;
+import java.security.interfaces.ECPrivateKey;
+import java.security.interfaces.ECPublicKey;
+
+public class TezGenKy_Hand_Ecc extends TezCom_Gen<EzKeyPairEcc> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private int limit = 4 * 1024 * 1024;
-    private int buffSize = 1024;
+    private static final String KEY_ALGORITHM = "EC";
 
-    public TezParseKey_Read_InStream2Bytes propertyLimit(int maxLength) {
-        this.limit = maxLength;
+    private String type = "secp256r1";
+
+    public TezGenKy_Hand_Ecc propertyTypeSECP256R1(){
+        this.type = "secp256r1";
         return this;
     }
 
-    public TezParseKey_Read_InStream2Bytes propertyBuffSize(int buffSize) {
-        this.buffSize = buffSize;
+    public TezGenKy_Hand_Ecc propertyType(String type){
+        this.type = type;
         return this;
     }
 
@@ -44,28 +50,38 @@ public class TezParseKey_Read_InStream2Bytes extends TezCommon_Proc<InputStream,
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezParseKey_Trans_Bytes2Bytes continueTranscoding(){
-        return new TezParseKey_Trans_Bytes2Bytes(this);
+    public TezGenKy_Encd_KyPr2Encd continueEncoding(){
+        return new TezGenKy_Encd_KyPr2Encd(this);
     }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
+    @Override
+    public EzKeyPairEcc get() throws EzException {
+        return super.get();
+    }
+
+    @Override
+    public EzKeyPairEcc get(EzExceptionHandler exceptionHandler) {
+        return super.get(exceptionHandler);
+    }
+
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Read_InStream2Bytes(TezCommon_Proc<?, ?> previous) {
-        super(previous);
+    TezGenKy_Hand_Ecc() {
     }
 
     @Override
-    byte[] onProcess(InputStream input) throws Exception {
-        if (input == null) {
-            return null;
+    EzKeyPairEcc onGenerate() throws Exception {
+        if (type == null) {
+            throw new IllegalParamException("type is null");
         }
-        return TezCommon_Util_InStream.readAll(input, limit, buffSize);
+        KeyPair keyPair = BaseAsymKeyGenerator.generateEcKeyPair(type, KEY_ALGORITHM);
+        return new EzKeyPairEcc((ECPublicKey) keyPair.getPublic(), (ECPrivateKey) keyPair.getPrivate());
     }
 
 }

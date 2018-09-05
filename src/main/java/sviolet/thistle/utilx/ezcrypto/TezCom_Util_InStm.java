@@ -27,7 +27,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class TezCommon_Util_InStream {
+public class TezCom_Util_InStm {
 
     public static byte[] readAll(InputStream input, int limit, int buffSize) throws Exception {
         if (buffSize < 1024){

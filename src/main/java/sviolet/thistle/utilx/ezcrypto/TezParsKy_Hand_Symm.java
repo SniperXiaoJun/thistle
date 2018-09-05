@@ -19,53 +19,41 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import java.io.File;
-
-public class TezParseKey_Read_File2Bytes extends TezCommon_Proc<File, byte[]> {
+public class TezParsKy_Hand_Symm extends TezCom_Proc<byte[], byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private int limit = 4 * 1024 * 1024;
-    private int buffSize = 1024;
-
-    public TezParseKey_Read_File2Bytes propertyLimit(int maxLength) {
-        this.limit = maxLength;
-        return this;
-    }
-
-    public TezParseKey_Read_File2Bytes propertyBuffSize(int buffSize) {
-        this.buffSize = buffSize;
-        return this;
-    }
-
     /* *****************************************************************************************************************
      * continue继续流程
      * *****************************************************************************************************************/
-
-    public TezParseKey_Trans_Bytes2Bytes continueTranscoding(){
-        return new TezParseKey_Trans_Bytes2Bytes(this);
-    }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
+    @Override
+    public byte[] get() throws EzException {
+        return super.get();
+    }
+
+    @Override
+    public byte[] get(EzExceptionHandler exceptionHandler) {
+        return super.get(exceptionHandler);
+    }
+
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Read_File2Bytes(TezCommon_Proc<?, ?> previous) {
+    TezParsKy_Hand_Symm(TezCom_Proc<?, ?> previous) {
         super(previous);
     }
 
     @Override
-    byte[] onProcess(File input) throws Exception {
-        if (input == null) {
-            return null;
-        }
-        return TezCommon_Util_File.readAll(input, limit, buffSize);
+    byte[] onProcess(byte[] input) throws Exception {
+        return input;
     }
 
 }

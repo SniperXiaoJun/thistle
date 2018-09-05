@@ -24,7 +24,7 @@ import sviolet.thistle.util.conversion.Base64Utils;
 import sviolet.thistle.util.conversion.ByteUtils;
 import sviolet.thistle.util.crypto.PEMEncodeUtils;
 
-public class TezParseKey_Read_String2Bytes extends TezCommon_Proc<String, byte[]> {
+public class TezParsKy_Rd_Str2B extends TezCom_Proc<String, byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -40,27 +40,27 @@ public class TezParseKey_Read_String2Bytes extends TezCommon_Proc<String, byte[]
         RAW
     }
 
-    public TezParseKey_Read_String2Bytes propertyTypeBase64() {
+    public TezParsKy_Rd_Str2B propertyTypeBase64() {
         this.type = Type.X509_BASE64;
         return this;
     }
 
-    public TezParseKey_Read_String2Bytes propertyTypeHex() {
+    public TezParsKy_Rd_Str2B propertyTypeHex() {
         this.type = Type.X509_HEX;
         return this;
     }
 
-    public TezParseKey_Read_String2Bytes propertyTypePEM() {
+    public TezParsKy_Rd_Str2B propertyTypePEM() {
         this.type = Type.X509_PEM;
         return this;
     }
 
-    public TezParseKey_Read_String2Bytes propertyTypeRaw() {
+    public TezParsKy_Rd_Str2B propertyTypeRaw() {
         this.type = Type.RAW;
         return this;
     }
 
-    public TezParseKey_Read_String2Bytes optionCharset(String charset) {
+    public TezParsKy_Rd_Str2B optionCharset(String charset) {
         this.charset = charset;
         return this;
     }
@@ -69,40 +69,40 @@ public class TezParseKey_Read_String2Bytes extends TezCommon_Proc<String, byte[]
      * select选择流程
      * *****************************************************************************************************************/
 
-    public TezParseKey_Handle_Symmetry selectAES(){
-        return new TezParseKey_Handle_Symmetry(this);
+    public TezParsKy_Hand_Symm selectAES(){
+        return new TezParsKy_Hand_Symm(this);
     }
 
-    public TezParseKey_Handle_Symmetry selectDES(){
-        return new TezParseKey_Handle_Symmetry(this);
+    public TezParsKy_Hand_Symm selectDES(){
+        return new TezParsKy_Hand_Symm(this);
     }
 
-    public TezParseKey_Handle_Symmetry selectDESEDE(){
-        return new TezParseKey_Handle_Symmetry(this);
+    public TezParsKy_Hand_Symm selectDESEDE(){
+        return new TezParsKy_Hand_Symm(this);
     }
 
-    public TezParseKey_Handle_RsaPri selectRSAPrivate(){
-        return new TezParseKey_Handle_RsaPri(this);
+    public TezParsKy_Hand_RsaPri selectRSAPrivate(){
+        return new TezParsKy_Hand_RsaPri(this);
     }
 
-    public TezParseKey_Handle_RsaPub selectRSAPublic(){
-        return new TezParseKey_Handle_RsaPub(this);
+    public TezParsKy_Hand_RsaPub selectRSAPublic(){
+        return new TezParsKy_Hand_RsaPub(this);
     }
 
-    public TezParseKey_Handle_EccPri selectECCPrivate(){
-        return new TezParseKey_Handle_EccPri(this);
+    public TezParsKy_Hand_EccPri selectECCPrivate(){
+        return new TezParsKy_Hand_EccPri(this);
     }
 
-    public TezParseKey_Handle_EccPub selectECCPublic(){
-        return new TezParseKey_Handle_EccPub(this);
+    public TezParsKy_Hand_EccPub selectECCPublic(){
+        return new TezParsKy_Hand_EccPub(this);
     }
 
     /* *****************************************************************************************************************
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezParseKey_Trans_Bytes2Bytes continueTranscoding(){
-        return new TezParseKey_Trans_Bytes2Bytes(this);
+    public TezParsKy_Trs_B2B continueTranscoding(){
+        return new TezParsKy_Trs_B2B(this);
     }
 
     /* *****************************************************************************************************************
@@ -113,7 +113,7 @@ public class TezParseKey_Read_String2Bytes extends TezCommon_Proc<String, byte[]
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Read_String2Bytes(TezCommon_Proc<?, ?> previous) {
+    TezParsKy_Rd_Str2B(TezCom_Proc<?, ?> previous) {
         super(previous);
     }
 

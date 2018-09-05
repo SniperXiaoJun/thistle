@@ -19,70 +19,26 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
-
-import java.security.interfaces.RSAPublicKey;
-
-public class TezParseKey_Handle_RsaPub extends TezCommon_Proc<byte[], RSAPublicKey> {
+public class TezParsKy_Src_ExpMod extends TezCom_Src<EzExponentAndModulus> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "RSA";
-
-    private Type type = Type.X509;
-
-    private enum Type {
-        X509
-    }
-
-    public TezParseKey_Handle_RsaPub propertyTypeX509(){
-        this.type = Type.X509;
-        return this;
-    }
-
     /* *****************************************************************************************************************
-     * continue继续流程
+     * select选择流程
      * *****************************************************************************************************************/
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
-    @Override
-    public RSAPublicKey get() throws EzException {
-        return super.get();
-    }
-
-    @Override
-    public RSAPublicKey get(EzExceptionHandler exceptionHandler) {
-        return super.get(exceptionHandler);
-    }
-
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Handle_RsaPub(TezCommon_Proc<?, ?> previous) {
-        super(previous);
-    }
-
-    @Override
-    RSAPublicKey onProcess(byte[] input) throws Exception {
-        if (input == null) {
-            return null;
-        }
-        if (type == null) {
-            throw new IllegalParamException("type is null");
-        }
-        switch (type) {
-            case X509:
-                return (RSAPublicKey) BaseAsymKeyGenerator.parsePublicKeyByX509(input, KEY_ALGORITHM);
-            default:
-                throw new IllegalParamException("type is invalid");
-        }
+    TezParsKy_Src_ExpMod(EzExponentAndModulus input) {
+        super(input);
     }
 
 }

@@ -19,87 +19,28 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
+import java.io.InputStream;
 
-public class TezGenKey_Handle_Sha extends TezCommon_Gen<byte[]> {
+public class TezParsKy_Src_InStm extends TezCom_Src<InputStream> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private int bits = 128;
-    private byte[] seed;
-
-    public TezGenKey_Handle_Sha propertyBits64(){
-        this.bits = 64;
-        return this;
-    }
-
-    public TezGenKey_Handle_Sha propertyBits128(){
-        this.bits = 128;
-        return this;
-    }
-
-    public TezGenKey_Handle_Sha propertyBits192(){
-        this.bits = 192;
-        return this;
-    }
-
-    public TezGenKey_Handle_Sha propertyBits256(){
-        this.bits = 256;
-        return this;
-    }
-
     /* *****************************************************************************************************************
-     * continue继续流程
+     * select选择流程
      * *****************************************************************************************************************/
-
-    public TezGenKey_Encode_Bytes2Encoded continueEncoding(){
-        return new TezGenKey_Encode_Bytes2Encoded(this);
-    }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
-    @Override
-    public byte[] get() throws EzException {
-        return super.get();
-    }
-
-    @Override
-    public byte[] get(EzExceptionHandler exceptionHandler) {
-        return super.get(exceptionHandler);
-    }
-
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Handle_Sha(byte[] seed) {
-        this.seed = seed;
+    TezParsKy_Src_InStm(InputStream input) {
+        super(input);
     }
 
-    @Override
-    byte[] onGenerate() throws Exception {
-        if (bits <= 0) {
-            throw new IllegalParamException("bits <= 0");
-        }
-        if (seed == null) {
-            throw new IllegalParamException("seed is null");
-        }
-        switch (bits) {
-            case 64:
-                return BaseKeyGenerator.generateShaKey64(seed);
-            case 128:
-                return BaseKeyGenerator.generateShaKey128(seed);
-            case 192:
-                return BaseKeyGenerator.generateShaKey192(seed);
-            case 256:
-                return BaseKeyGenerator.generateShaKey256(seed);
-            default:
-                throw new IllegalParamException("invalid bits : " + bits);
-        }
-    }
 }

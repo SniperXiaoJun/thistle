@@ -19,26 +19,84 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public class TezParseKey_Src_String extends TezCommon_Src<String> {
+import sviolet.thistle.entity.IllegalParamException;
+import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
+
+import java.security.SecureRandom;
+
+public class TezGenKy_Hand_Des extends TezCom_Gen<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
+    private static final String KEY_ALGORITHM = "DES";
+
+    private int bits = 56;
+    private byte[] seed;
+    private SecureRandom secureRandom;
+
+    public TezGenKy_Hand_Des propertyBits64(){
+        this.bits = 56;
+        return this;
+    }
+
+    public TezGenKy_Hand_Des propertyBits(int bits){
+        this.bits = bits;
+        return this;
+    }
+
+    public TezGenKy_Hand_Des optionSeed(byte[] seed) {
+        this.seed = seed;
+        return this;
+    }
+
+    public TezGenKy_Hand_Des optionSecureRandom(SecureRandom secureRandom){
+        this.secureRandom = secureRandom;
+        return this;
+    }
+
     /* *****************************************************************************************************************
-     * select选择流程
+     * continue继续流程
      * *****************************************************************************************************************/
+
+    public TezGenKy_Encd_B2Encd continueEncoding(){
+        return new TezGenKy_Encd_B2Encd(this);
+    }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
+    @Override
+    public byte[] get() throws EzException {
+        return super.get();
+    }
+
+    @Override
+    public byte[] get(EzExceptionHandler exceptionHandler) {
+        return super.get(exceptionHandler);
+    }
+
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Src_String(String input) {
-        super(input);
+    TezGenKy_Hand_Des() {
+    }
+
+    @Override
+    byte[] onGenerate() throws Exception {
+        if (bits <= 0) {
+            throw new IllegalParamException("bits <= 0");
+        }
+        if (secureRandom != null) {
+            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
+        } else if (seed != null) {
+            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
+        } else {
+            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
+        }
     }
 
 }

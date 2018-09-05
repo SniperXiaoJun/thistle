@@ -19,15 +19,34 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-public abstract class TezCommon_Gen<T> extends TezCommon_Proc<T, T> {
+import java.io.InputStream;
+
+public class TezParsKy_Rd_InStm2B extends TezCom_Proc<InputStream, byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
+    private int limit = 4 * 1024 * 1024;
+    private int buffSize = 1024;
+
+    public TezParsKy_Rd_InStm2B propertyLimit(int maxLength) {
+        this.limit = maxLength;
+        return this;
+    }
+
+    public TezParsKy_Rd_InStm2B propertyBuffSize(int buffSize) {
+        this.buffSize = buffSize;
+        return this;
+    }
+
     /* *****************************************************************************************************************
      * continue继续流程
      * *****************************************************************************************************************/
+
+    public TezParsKy_Trs_B2B continueTranscoding(){
+        return new TezParsKy_Trs_B2B(this);
+    }
 
     /* *****************************************************************************************************************
      * get结束取值
@@ -37,15 +56,16 @@ public abstract class TezCommon_Gen<T> extends TezCommon_Proc<T, T> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezCommon_Gen() {
-        super(null);
+    TezParsKy_Rd_InStm2B(TezCom_Proc<?, ?> previous) {
+        super(previous);
     }
 
     @Override
-    final T onProcess(T input) throws Exception {
-        return onGenerate();
+    byte[] onProcess(InputStream input) throws Exception {
+        if (input == null) {
+            return null;
+        }
+        return TezCom_Util_InStm.readAll(input, limit, buffSize);
     }
-
-    abstract T onGenerate() throws Exception ;
 
 }

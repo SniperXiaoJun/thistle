@@ -21,7 +21,7 @@ package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.util.common.CloseableUtils;
 
-public abstract class TezCommon_Proc<I, O> {
+public abstract class TezCom_Proc<I, O> {
 
     /* *****************************************************************************************************************
      * get结束取值
@@ -46,10 +46,10 @@ public abstract class TezCommon_Proc<I, O> {
      * inner logic
      * *****************************************************************************************************************/
 
-    private TezCommon_Proc<?, ?> firstProc;
-    private TezCommon_Proc<?, ?> nextProc;
+    private TezCom_Proc<?, ?> firstProc;
+    private TezCom_Proc<?, ?> nextProc;
 
-    TezCommon_Proc(TezCommon_Proc<?, ?> previous) {
+    TezCom_Proc(TezCom_Proc<?, ?> previous) {
         if (previous == null) {
             firstProc = this;
         } else {
@@ -60,7 +60,7 @@ public abstract class TezCommon_Proc<I, O> {
 
     O doFinal() throws EzException {
 
-        TezCommon_Proc<?, ?> currProc = firstProc;
+        TezCom_Proc<?, ?> currProc = firstProc;
         Object inputData = null;
         int step = 0;
 

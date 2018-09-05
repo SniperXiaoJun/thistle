@@ -24,7 +24,7 @@ import sviolet.thistle.util.common.CloseableUtils;
 
 import java.io.*;
 
-public class TezCommon_Util_File {
+public class TezCom_Util_File {
 
     public static byte[] readAll(File input, int limit, int buffSize) throws Exception {
         if (buffSize < 1024){

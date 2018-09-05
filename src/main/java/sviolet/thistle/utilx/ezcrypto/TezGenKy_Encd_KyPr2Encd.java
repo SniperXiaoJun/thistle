@@ -24,7 +24,7 @@ import sviolet.thistle.util.conversion.Base64Utils;
 import sviolet.thistle.util.conversion.ByteUtils;
 import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
 
-public class TezGenKey_Encode_KeyPair2Encoded extends TezCommon_Proc<EzKeyPair<?, ?>, EzKeyPairEncoded> {
+public class TezGenKy_Encd_KyPr2Encd extends TezCom_Proc<EzKeyPair<?, ?>, EzKeyPairEncoded> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -44,22 +44,22 @@ public class TezGenKey_Encode_KeyPair2Encoded extends TezCommon_Proc<EzKeyPair<?
         BASE64
     }
 
-    public TezGenKey_Encode_KeyPair2Encoded propertyPublicKeyX509(){
+    public TezGenKy_Encd_KyPr2Encd propertyPublicKeyX509(){
         this.publicKeyType = KeyType.X509;
         return this;
     }
 
-    public TezGenKey_Encode_KeyPair2Encoded propertyPrivateKeyPKCS8(){
+    public TezGenKy_Encd_KyPr2Encd propertyPrivateKeyPKCS8(){
         this.privateKeyType = KeyType.PKCS8;
         return this;
     }
 
-    public TezGenKey_Encode_KeyPair2Encoded propertyEncodeBase64(){
+    public TezGenKy_Encd_KyPr2Encd propertyEncodeBase64(){
         this.encodeType = EncodeType.BASE64;
         return this;
     }
 
-    public TezGenKey_Encode_KeyPair2Encoded propertyEncodeHex(){
+    public TezGenKy_Encd_KyPr2Encd propertyEncodeHex(){
         this.encodeType = EncodeType.HEX;
         return this;
     }
@@ -86,7 +86,7 @@ public class TezGenKey_Encode_KeyPair2Encoded extends TezCommon_Proc<EzKeyPair<?
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Encode_KeyPair2Encoded(TezCommon_Proc<?, ?> previous) {
+    TezGenKy_Encd_KyPr2Encd(TezCom_Proc<?, ?> previous) {
         super(previous);
     }
 

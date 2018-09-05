@@ -20,26 +20,49 @@
 package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
+import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
 
-import java.security.interfaces.ECPublicKey;
+import java.security.SecureRandom;
 
-public class TezParseKey_Handle_EccPub extends TezCommon_Proc<byte[], ECPublicKey> {
+public class TezGenKy_Hand_Aes extends TezCom_Gen<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "EC";
+    private static final String KEY_ALGORITHM = "AES";
 
-    private Type type = Type.X509;
+    private int bits = 128;
+    private byte[] seed;
+    private SecureRandom secureRandom;
 
-    private enum Type {
-        X509
+    public TezGenKy_Hand_Aes propertyBits128(){
+        this.bits = 128;
+        return this;
     }
 
-    public TezParseKey_Handle_EccPub propertyTypeX509(){
-        this.type = Type.X509;
+    public TezGenKy_Hand_Aes propertyBits192(){
+        this.bits = 192;
+        return this;
+    }
+
+    public TezGenKy_Hand_Aes propertyBits256(){
+        this.bits = 256;
+        return this;
+    }
+
+    public TezGenKy_Hand_Aes propertyBits(int bits){
+        this.bits = bits;
+        return this;
+    }
+
+    public TezGenKy_Hand_Aes optionSeed(byte[] seed) {
+        this.seed = seed;
+        return this;
+    }
+
+    public TezGenKy_Hand_Aes optionSecureRandom(SecureRandom secureRandom){
+        this.secureRandom = secureRandom;
         return this;
     }
 
@@ -47,17 +70,21 @@ public class TezParseKey_Handle_EccPub extends TezCommon_Proc<byte[], ECPublicKe
      * continue继续流程
      * *****************************************************************************************************************/
 
+    public TezGenKy_Encd_B2Encd continueEncoding(){
+        return new TezGenKy_Encd_B2Encd(this);
+    }
+
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
     @Override
-    public ECPublicKey get() throws EzException {
+    public byte[] get() throws EzException {
         return super.get();
     }
 
     @Override
-    public ECPublicKey get(EzExceptionHandler exceptionHandler) {
+    public byte[] get(EzExceptionHandler exceptionHandler) {
         return super.get(exceptionHandler);
     }
 
@@ -65,23 +92,20 @@ public class TezParseKey_Handle_EccPub extends TezCommon_Proc<byte[], ECPublicKe
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Handle_EccPub(TezCommon_Proc<?, ?> previous) {
-        super(previous);
+    TezGenKy_Hand_Aes() {
     }
 
     @Override
-    ECPublicKey onProcess(byte[] input) throws Exception {
-        if (input == null) {
-            return null;
+    byte[] onGenerate() throws Exception {
+        if (bits <= 0) {
+            throw new IllegalParamException("bits <= 0");
         }
-        if (type == null) {
-            throw new IllegalParamException("type is null");
-        }
-        switch (type) {
-            case X509:
-                return (ECPublicKey) BaseAsymKeyGenerator.parsePublicKeyByX509(input, KEY_ALGORITHM);
-            default:
-                throw new IllegalParamException("type is invalid");
+        if (secureRandom != null) {
+            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
+        } else if (seed != null) {
+            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
+        } else {
+            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
         }
     }
 

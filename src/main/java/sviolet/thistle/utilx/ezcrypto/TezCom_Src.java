@@ -19,69 +19,36 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
-
-import java.security.KeyPair;
-import java.security.interfaces.ECPrivateKey;
-import java.security.interfaces.ECPublicKey;
-
-public class TezGenKey_Handle_Ecc extends TezCommon_Gen<EzKeyPairEcc> {
+public abstract class TezCom_Src<T> extends TezCom_Proc<T, T> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "EC";
-
-    private String type = "secp256r1";
-
-    public TezGenKey_Handle_Ecc propertyTypeSECP256R1(){
-        this.type = "secp256r1";
-        return this;
-    }
-
-    public TezGenKey_Handle_Ecc propertyType(String type){
-        this.type = type;
-        return this;
-    }
-
     /* *****************************************************************************************************************
-     * continue继续流程
+     * select选择流程
      * *****************************************************************************************************************/
-
-    public TezGenKey_Encode_KeyPair2Encoded continueEncoding(){
-        return new TezGenKey_Encode_KeyPair2Encoded(this);
-    }
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
-    @Override
-    public EzKeyPairEcc get() throws EzException {
-        return super.get();
-    }
-
-    @Override
-    public EzKeyPairEcc get(EzExceptionHandler exceptionHandler) {
-        return super.get(exceptionHandler);
-    }
-
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Handle_Ecc() {
+    private T data;
+
+    TezCom_Src(T input) {
+        super(null);
+        this.data = input;
     }
 
     @Override
-    EzKeyPairEcc onGenerate() throws Exception {
-        if (type == null) {
-            throw new IllegalParamException("type is null");
-        }
-        KeyPair keyPair = BaseAsymKeyGenerator.generateEcKeyPair(type, KEY_ALGORITHM);
-        return new EzKeyPairEcc((ECPublicKey) keyPair.getPublic(), (ECPrivateKey) keyPair.getPrivate());
+    final T onProcess(T input) throws Exception {
+        T output = data;
+        data = null;
+        return output;
     }
 
 }

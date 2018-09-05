@@ -19,71 +19,26 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
-
-import java.security.interfaces.ECPrivateKey;
-import java.security.interfaces.RSAPrivateKey;
-
-public class TezParseKey_Handle_EccPri extends TezCommon_Proc<byte[], ECPrivateKey> {
+public class TezParsKy_Src_Str extends TezCom_Src<String> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "EC";
-
-    private Type type = Type.PKCS8;
-
-    private enum Type {
-        PKCS8
-    }
-
-    public TezParseKey_Handle_EccPri propertyTypePKCS8(){
-        this.type = Type.PKCS8;
-        return this;
-    }
-
     /* *****************************************************************************************************************
-     * continue继续流程
+     * select选择流程
      * *****************************************************************************************************************/
 
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
-    @Override
-    public ECPrivateKey get() throws EzException {
-        return super.get();
-    }
-
-    @Override
-    public ECPrivateKey get(EzExceptionHandler exceptionHandler) {
-        return super.get(exceptionHandler);
-    }
-
     /* *****************************************************************************************************************
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Handle_EccPri(TezCommon_Proc<?, ?> previous) {
-        super(previous);
-    }
-
-    @Override
-    ECPrivateKey onProcess(byte[] input) throws Exception {
-        if (input == null) {
-            return null;
-        }
-        if (type == null) {
-            throw new IllegalParamException("type is null");
-        }
-        switch (type) {
-            case PKCS8:
-                return (ECPrivateKey) BaseAsymKeyGenerator.parsePrivateKeyByPKCS8(input, KEY_ALGORITHM);
-            default:
-                throw new IllegalParamException("type is invalid");
-        }
+    TezParsKy_Src_Str(String input) {
+        super(input);
     }
 
 }

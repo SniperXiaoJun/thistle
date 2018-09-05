@@ -19,9 +19,9 @@
 
 package sviolet.thistle.utilx.ezcrypto;
 
-import java.io.File;
+import java.security.interfaces.RSAPrivateKey;
 
-public class TezParseKey_Src_File extends TezCommon_Src<File> {
+public class TezParsKy_Src_RsaPriKy extends TezCom_Src<RSAPrivateKey> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -39,7 +39,7 @@ public class TezParseKey_Src_File extends TezCommon_Src<File> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParseKey_Src_File(File input) {
+    TezParsKy_Src_RsaPriKy(RSAPrivateKey input) {
         super(input);
     }
 

@@ -20,44 +20,26 @@
 package sviolet.thistle.utilx.ezcrypto;
 
 import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.crypto.base.BaseKeyGenerator;
+import sviolet.thistle.util.crypto.base.BaseAsymKeyGenerator;
 
-import java.security.SecureRandom;
+import java.security.interfaces.RSAPublicKey;
 
-public class TezGenKey_Handle_DesEde extends TezCommon_Gen<byte[]> {
+public class TezParsKy_Hand_RsaPub extends TezCom_Proc<byte[], RSAPublicKey> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    private static final String KEY_ALGORITHM = "DESede";
+    private static final String KEY_ALGORITHM = "RSA";
 
-    private int bits = 112;
-    private byte[] seed;
-    private SecureRandom secureRandom;
+    private Type type = Type.X509;
 
-    public TezGenKey_Handle_DesEde propertyBits128(){
-        this.bits = 112;
-        return this;
+    private enum Type {
+        X509
     }
 
-    public TezGenKey_Handle_DesEde propertyBits192(){
-        this.bits = 168;
-        return this;
-    }
-
-    public TezGenKey_Handle_DesEde propertyBits(int bits){
-        this.bits = bits;
-        return this;
-    }
-
-    public TezGenKey_Handle_DesEde propertySeed(byte[] seed) {
-        this.seed = seed;
-        return this;
-    }
-
-    public TezGenKey_Handle_DesEde propertySecureRandom(SecureRandom secureRandom){
-        this.secureRandom = secureRandom;
+    public TezParsKy_Hand_RsaPub propertyTypeX509(){
+        this.type = Type.X509;
         return this;
     }
 
@@ -65,21 +47,17 @@ public class TezGenKey_Handle_DesEde extends TezCommon_Gen<byte[]> {
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezGenKey_Encode_Bytes2Encoded continueEncoding(){
-        return new TezGenKey_Encode_Bytes2Encoded(this);
-    }
-
     /* *****************************************************************************************************************
      * get结束取值
      * *****************************************************************************************************************/
 
     @Override
-    public byte[] get() throws EzException {
+    public RSAPublicKey get() throws EzException {
         return super.get();
     }
 
     @Override
-    public byte[] get(EzExceptionHandler exceptionHandler) {
+    public RSAPublicKey get(EzExceptionHandler exceptionHandler) {
         return super.get(exceptionHandler);
     }
 
@@ -87,20 +65,23 @@ public class TezGenKey_Handle_DesEde extends TezCommon_Gen<byte[]> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezGenKey_Handle_DesEde() {
+    TezParsKy_Hand_RsaPub(TezCom_Proc<?, ?> previous) {
+        super(previous);
     }
 
     @Override
-    byte[] onGenerate() throws Exception {
-        if (bits <= 0) {
-            throw new IllegalParamException("bits <= 0");
+    RSAPublicKey onProcess(byte[] input) throws Exception {
+        if (input == null) {
+            return null;
         }
-        if (secureRandom != null) {
-            return BaseKeyGenerator.generateKey(secureRandom, bits, KEY_ALGORITHM);
-        } else if (seed != null) {
-            return BaseKeyGenerator.generateKey(seed, bits, KEY_ALGORITHM);
-        } else {
-            return BaseKeyGenerator.generateKey((SecureRandom) null, bits, KEY_ALGORITHM);
+        if (type == null) {
+            throw new IllegalParamException("type is null");
+        }
+        switch (type) {
+            case X509:
+                return (RSAPublicKey) BaseAsymKeyGenerator.parsePublicKeyByX509(input, KEY_ALGORITHM);
+            default:
+                throw new IllegalParamException("type is invalid");
         }
     }
 
