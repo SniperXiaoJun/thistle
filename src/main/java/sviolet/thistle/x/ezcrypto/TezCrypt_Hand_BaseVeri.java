@@ -19,6 +19,10 @@
 
 package sviolet.thistle.x.ezcrypto;
 
+import sviolet.thistle.entity.IllegalParamException;
+import sviolet.thistle.util.conversion.Base64Utils;
+import sviolet.thistle.util.conversion.ByteUtils;
+
 import java.security.PublicKey;
 import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
@@ -29,9 +33,9 @@ public abstract class TezCrypt_Hand_BaseVeri<I> extends TezCom_Proc<I, Boolean> 
      * property必要参数 / option可选参数
      * *****************************************************************************************************************/
 
-    SignType signType;
-    String signStr;
-    byte[] sign;
+    private SignType signType;
+    private String signStr;
+    private byte[] sign;
     PublicKey publicKey;
     String type = "SHA256withRSA";
     boolean nio = true;
@@ -112,6 +116,33 @@ public abstract class TezCrypt_Hand_BaseVeri<I> extends TezCom_Proc<I, Boolean> 
 
     TezCrypt_Hand_BaseVeri(TezCom_Proc<?, ?> previous) {
         super(previous);
+    }
+
+    byte[] getSign() throws IllegalParamException {
+        if (signType == null) {
+            throw new IllegalParamException("signType is null");
+        }
+
+        byte[] sign;
+        switch (signType) {
+            case RAW:
+                if (this.sign == null) {
+                    throw new IllegalParamException("sign is null");
+                }
+                return this.sign;
+            case BASE64:
+                if (this.signStr == null) {
+                    throw new IllegalParamException("sign(signStr) is null");
+                }
+                return  Base64Utils.decode(signStr);
+            case HEX:
+                if (this.signStr == null) {
+                    throw new IllegalParamException("sign(signStr) is null");
+                }
+                return  ByteUtils.hexToBytes(signStr);
+            default:
+                throw new IllegalParamException("signType is invalid");
+        }
     }
 
 }

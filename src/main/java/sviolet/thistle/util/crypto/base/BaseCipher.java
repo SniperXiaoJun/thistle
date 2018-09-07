@@ -629,6 +629,34 @@ public class BaseCipher {
         }
     }
 
+    /**
+     * <p>用公钥验证数字签名(IO)</p>
+     *
+     * @param inputStream 被签名的输入流
+     * @param sign 数字签名
+     * @param publicKey 公钥
+     * @param signAlgorithm 签名逻辑: RSACipher.SIGN_ALGORITHM_RSA_MD5 / RSACipher.SIGN_ALGORITHM_RSA_SHA1
+     *
+     * @return true:数字签名有效
+     * @throws NoSuchAlgorithmException 无效的signAlgorithm
+     * @throws InvalidKeyException 无效的私钥
+     * @throws SignatureException 签名异常
+     *
+     */
+    public static boolean verifyInputStream(InputStream inputStream, byte[] sign, PublicKey publicKey, String signAlgorithm) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException {
+        try {
+            Signature signature = generateSignatureInstance(publicKey, signAlgorithm);
+            byte[] buff = new byte[1024];
+            int size;
+            while((size = inputStream.read(buff)) != -1){
+                signature.update(buff, 0, size);
+            }
+            return signature.verify(sign);
+        } finally {
+            CloseableUtils.closeQuiet(inputStream);
+        }
+    }
+
     /********************************************************************************************************************************
      ********************************************************************************************************************************
      *

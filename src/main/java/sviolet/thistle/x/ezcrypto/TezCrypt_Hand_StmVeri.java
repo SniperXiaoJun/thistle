@@ -20,14 +20,13 @@
 package sviolet.thistle.x.ezcrypto;
 
 import sviolet.thistle.entity.IllegalParamException;
-import sviolet.thistle.util.conversion.Base64Utils;
-import sviolet.thistle.util.conversion.ByteUtils;
 import sviolet.thistle.util.crypto.base.BaseCipher;
 import sviolet.thistle.util.judge.CheckUtils;
 
 import java.io.File;
+import java.io.InputStream;
 
-public class TezCrypt_Hand_FileVeri extends TezCrypt_Hand_BaseVeri<File> {
+public class TezCrypt_Hand_StmVeri extends TezCrypt_Hand_BaseVeri<InputStream> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -51,12 +50,12 @@ public class TezCrypt_Hand_FileVeri extends TezCrypt_Hand_BaseVeri<File> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezCrypt_Hand_FileVeri(TezCom_Proc<?, ?> previous) {
+    TezCrypt_Hand_StmVeri(TezCom_Proc<?, ?> previous) {
         super(previous);
     }
 
     @Override
-    Boolean onProcess(File input) throws Exception {
+    Boolean onProcess(InputStream input) throws Exception {
         if (input == null) {
             throw new RuntimeException("input is null");
         }
@@ -66,12 +65,7 @@ public class TezCrypt_Hand_FileVeri extends TezCrypt_Hand_BaseVeri<File> {
         if (publicKey == null) {
             throw new IllegalParamException("publicKey is null");
         }
-
-        if (nio) {
-            return BaseCipher.verify(input, getSign(), publicKey, type);
-        } else {
-            return BaseCipher.verify(input, getSign(), publicKey, type);
-        }
+        return BaseCipher.verifyInputStream(input, getSign(), publicKey, type);
     }
 
 }
