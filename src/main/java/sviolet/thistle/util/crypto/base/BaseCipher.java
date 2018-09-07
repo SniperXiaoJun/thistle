@@ -19,6 +19,7 @@
 
 package sviolet.thistle.util.crypto.base;
 
+import sviolet.thistle.util.common.CloseableUtils;
 import sviolet.thistle.util.common.PlatformUtils;
 import sviolet.thistle.util.file.FileUtils;
 
@@ -136,14 +137,8 @@ public class BaseCipher {
                 out.write(buff, 0, length);
             }
         } finally {
-            try {
-                in.close();
-            } catch (Throwable ignore){
-            }
-            try {
-                out.close();
-            } catch (Throwable ignore){
-            }
+            CloseableUtils.closeQuiet(in);
+            CloseableUtils.closeQuiet(out);
         }
     }
 
@@ -185,14 +180,8 @@ public class BaseCipher {
                 out.write(buff, 0, length);
             }
         } finally {
-            try {
-                in.close();
-            } catch (Throwable ignore){
-            }
-            try {
-                out.close();
-            } catch (Throwable ignore){
-            }
+            CloseableUtils.closeQuiet(in);
+            CloseableUtils.closeQuiet(out);
         }
     }
 
@@ -284,14 +273,8 @@ public class BaseCipher {
                 out.write(buff, 0, length);
             }
         } finally {
-            try {
-                in.close();
-            } catch (Throwable ignore){
-            }
-            try {
-                out.close();
-            } catch (Throwable ignore){
-            }
+            CloseableUtils.closeQuiet(in);
+            CloseableUtils.closeQuiet(out);
         }
     }
 
@@ -333,14 +316,8 @@ public class BaseCipher {
                 out.write(buff, 0, length);
             }
         } finally {
-            try {
-                in.close();
-            } catch (Throwable ignore){
-            }
-            try {
-                out.close();
-            } catch (Throwable ignore){
-            }
+            CloseableUtils.closeQuiet(in);
+            CloseableUtils.closeQuiet(out);
         }
     }
 
@@ -470,18 +447,8 @@ public class BaseCipher {
             signature.update(byteBuffer);
             return signature.sign();
         } finally {
-            if (inputStream != null){
-                try {
-                    inputStream.close();
-                } catch (IOException ignored) {
-                }
-            }
-            if (channel != null){
-                try {
-                    channel.close();
-                } catch (IOException ignored) {
-                }
-            }
+            CloseableUtils.closeQuiet(inputStream);
+            CloseableUtils.closeQuiet(channel);
             //尝试将MappedByteBuffer回收, 解决后续文件无法被读写删除的问题
             FileUtils.cleanMappedByteBuffer(byteBuffer);
         }
@@ -511,12 +478,33 @@ public class BaseCipher {
             }
             return signature.sign();
         } finally {
-            if (inputStream != null){
-                try {
-                    inputStream.close();
-                } catch (IOException ignored) {
-                }
+            CloseableUtils.closeQuiet(inputStream);
+        }
+    }
+
+    /**
+     * <p>用私钥对信息生成数字签名(IO)</p>
+     *
+     * @param inputStream 需要签名输入流
+     * @param privateKey 私钥
+     * @param signAlgorithm 签名逻辑
+     *
+     * @return 数字签名
+     * @throws NoSuchAlgorithmException 无效的signAlgorithm
+     * @throws InvalidKeyException 无效的私钥
+     * @throws SignatureException 签名异常
+     */
+    public static byte[] signInputStream(InputStream inputStream, PrivateKey privateKey, String signAlgorithm) throws NoSuchAlgorithmException, InvalidKeyException, SignatureException, IOException {
+        try {
+            Signature signature = generateSignatureInstance(privateKey, signAlgorithm);
+            byte[] buff = new byte[1024];
+            int size;
+            while((size = inputStream.read(buff)) != -1){
+                signature.update(buff, 0, size);
             }
+            return signature.sign();
+        } finally {
+            CloseableUtils.closeQuiet(inputStream);
         }
     }
 
@@ -604,18 +592,8 @@ public class BaseCipher {
             signature.update(byteBuffer);
             return signature.verify(sign);
         } finally {
-            if (inputStream != null){
-                try {
-                    inputStream.close();
-                } catch (IOException ignored) {
-                }
-            }
-            if (channel != null){
-                try {
-                    channel.close();
-                } catch (IOException ignored) {
-                }
-            }
+            CloseableUtils.closeQuiet(inputStream);
+            CloseableUtils.closeQuiet(channel);
             //尝试将MappedByteBuffer回收, 解决后续文件无法被读写删除的问题
             FileUtils.cleanMappedByteBuffer(byteBuffer);
         }
@@ -647,12 +625,7 @@ public class BaseCipher {
             }
             return signature.verify(sign);
         } finally {
-            if (inputStream != null){
-                try {
-                    inputStream.close();
-                } catch (IOException ignored) {
-                }
-            }
+            CloseableUtils.closeQuiet(inputStream);
         }
     }
 

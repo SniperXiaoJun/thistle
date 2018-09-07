@@ -33,6 +33,7 @@ import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 import org.bouncycastle.crypto.util.PrivateKeyFactory;
 import org.bouncycastle.operator.*;
 import org.bouncycastle.operator.bc.BcRSAContentSignerBuilder;
+import sviolet.thistle.util.common.CloseableUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -195,12 +196,7 @@ public class BaseBCCertificateUtils {
             ASN1Sequence seq = (ASN1Sequence) asn1InputStream.readObject();
             return new X509CertificateStructure(seq);
         }finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (Throwable ignore){
-                }
-            }
+            CloseableUtils.closeQuiet(inputStream);
         }
     }
 

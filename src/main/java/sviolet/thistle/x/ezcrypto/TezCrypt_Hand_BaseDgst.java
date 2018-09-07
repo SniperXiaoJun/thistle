@@ -1,0 +1,87 @@
+/*
+ * Copyright (C) 2015-2018 S.Violet
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Project GitHub: https://github.com/shepherdviolet/thistle
+ * Email: shepherdviolet@163.com
+ */
+
+package sviolet.thistle.x.ezcrypto;
+
+public abstract class TezCrypt_Hand_BaseDgst<I> extends TezCom_Proc<I, byte[]> {
+
+    /* *****************************************************************************************************************
+     * property必要参数 / option可选参数
+     * *****************************************************************************************************************/
+
+    String type = "SHA-256";
+    boolean nio = true;
+
+    public TezCrypt_Hand_BaseDgst propertyTypeMD5(){
+        this.type = "MD5";
+        return this;
+    }
+
+    public TezCrypt_Hand_BaseDgst propertyTypeSHA1(){
+        this.type = "SHA1";
+        return this;
+    }
+
+    public TezCrypt_Hand_BaseDgst propertyTypeSHA256(){
+        this.type = "SHA-256";
+        return this;
+    }
+
+    public TezCrypt_Hand_BaseDgst propertyTypeSHA512(){
+        this.type = "SHA-512";
+        return this;
+    }
+
+    public TezCrypt_Hand_BaseDgst propertyType(String type){
+        this.type = type;
+        return this;
+    }
+
+    public TezCrypt_Hand_BaseDgst optionNioDisabled(){
+        this.nio = false;
+        return this;
+    }
+
+    /* *****************************************************************************************************************
+     * continue继续流程
+     * *****************************************************************************************************************/
+
+    /* *****************************************************************************************************************
+     * done结束执行
+     * *****************************************************************************************************************/
+
+    @Override
+    public byte[] get() throws EzException {
+        return super.get();
+    }
+
+    @Override
+    public byte[] get(EzExceptionHandler exceptionHandler) {
+        return super.get(exceptionHandler);
+    }
+
+    /* *****************************************************************************************************************
+     * inner logic
+     * *****************************************************************************************************************/
+
+    TezCrypt_Hand_BaseDgst(TezCom_Proc<?, ?> previous) {
+        super(previous);
+    }
+
+}

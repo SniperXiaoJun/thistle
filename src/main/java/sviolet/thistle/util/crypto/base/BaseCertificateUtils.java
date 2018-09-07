@@ -19,6 +19,8 @@
 
 package sviolet.thistle.util.crypto.base;
 
+import sviolet.thistle.util.common.CloseableUtils;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.security.cert.Certificate;
@@ -58,10 +60,7 @@ public class BaseCertificateUtils {
             CertificateFactory factory = CertificateFactory.getInstance(type);
             return factory.generateCertificate(inputStream);
         } finally {
-            try {
-                inputStream.close();
-            } catch (Exception ignore) {
-            }
+            CloseableUtils.closeQuiet(inputStream);
         }
     }
 
