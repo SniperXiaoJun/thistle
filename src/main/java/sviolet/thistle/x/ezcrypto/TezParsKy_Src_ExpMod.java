@@ -19,7 +19,7 @@
 
 package sviolet.thistle.x.ezcrypto;
 
-public class TezParsKy_Src_ExpMod extends TezCom_Proc_Src<EzExponentAndModulus> {
+public class TezParsKy_Src_ExpMod extends TezCom_Proc_Src_NoTrace<EzExponentAndModulus> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数

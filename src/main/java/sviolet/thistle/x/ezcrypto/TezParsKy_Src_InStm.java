@@ -21,7 +21,7 @@ package sviolet.thistle.x.ezcrypto;
 
 import java.io.InputStream;
 
-public class TezParsKy_Src_InStm extends TezCom_Proc_Src<InputStream> {
+public class TezParsKy_Src_InStm extends TezCom_Proc_Src_NoTrace<InputStream> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数

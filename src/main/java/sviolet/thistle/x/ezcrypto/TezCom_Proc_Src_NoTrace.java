@@ -19,7 +19,7 @@
 
 package sviolet.thistle.x.ezcrypto;
 
-public class TezParsKy_Src_Str extends TezCom_Proc_Src_NoTrace<String> {
+public abstract class TezCom_Proc_Src_NoTrace<T> extends TezCom_Proc<T, T> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -37,8 +37,20 @@ public class TezParsKy_Src_Str extends TezCom_Proc_Src_NoTrace<String> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezParsKy_Src_Str(String input) {
-        super(input);
+    private T data;
+
+    TezCom_Proc_Src_NoTrace(T input) {
+        super(null, false);
+        this.data = input;
+        //add to closeable list
+        addCloseable(input);
+    }
+
+    @Override
+    final T onProcess(T input) throws Exception {
+        T output = data;
+        data = null;
+        return output;
     }
 
 }

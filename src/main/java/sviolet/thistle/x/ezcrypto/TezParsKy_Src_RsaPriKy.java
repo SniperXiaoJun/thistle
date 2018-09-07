@@ -21,7 +21,7 @@ package sviolet.thistle.x.ezcrypto;
 
 import java.security.interfaces.RSAPrivateKey;
 
-public class TezParsKy_Src_RsaPriKy extends TezCom_Proc_Src<RSAPrivateKey> {
+public class TezParsKy_Src_RsaPriKy extends TezCom_Proc_Src_NoTrace<RSAPrivateKey> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数

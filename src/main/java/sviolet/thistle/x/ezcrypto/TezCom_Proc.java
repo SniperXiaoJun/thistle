@@ -57,7 +57,11 @@ public abstract class TezCom_Proc<I, O> {
     private AtomicBoolean done = new AtomicBoolean(false);
     private String caller;
 
-    TezCom_Proc(TezCom_Proc<?, ?> previous) {
+    public TezCom_Proc(TezCom_Proc<?, ?> previous) {
+        this(previous, true);
+    }
+
+    TezCom_Proc(TezCom_Proc<?, ?> previous, boolean traceEnabled) {
         if (previous == null) {
             firstProc = this;
             closeables = new ArrayList<>(1);
@@ -66,7 +70,11 @@ public abstract class TezCom_Proc<I, O> {
             previous.nextProc = this;
         }
         if (TezCom_Util_Debug.isDebug()) {
-            caller = TezCom_Util_Debug.getCaller();
+            if (traceEnabled) {
+                caller = TezCom_Util_Debug.getCaller();
+            } else {
+                caller = "";
+            }
         }
     }
 

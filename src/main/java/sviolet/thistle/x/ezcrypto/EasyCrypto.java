@@ -35,19 +35,19 @@ import java.security.interfaces.RSAPublicKey;
 public class EasyCrypto {
 
     /* *****************************************************************************************************************
-     * handle 数据加密/解密/摘要/签名/验签
+     * from 数据加密/解密/摘要/签名/验签
      * *****************************************************************************************************************/
 
-    public static void from(byte[] data) {
-        //TODO
+    public static TezCrypt_Src_B from(byte[] data) {
+        return new TezCrypt_Src_B(data);
     }
 
-    public static void from(String data) {
-        //TODO
+    public static TezCrypt_Rd_Str2B from(String data) {
+        return new TezCrypt_Rd_Str2B(new TezCrypt_Src_Str(data));
     }
 
-    public static void from(InputStream inputStream) {
-        //TODO
+    public static TezCrypt_Src_InStm from(InputStream inputStream) {
+        return new TezCrypt_Src_InStm(inputStream);
     }
 
     public static TezCrypt_Src_File from(File file) {

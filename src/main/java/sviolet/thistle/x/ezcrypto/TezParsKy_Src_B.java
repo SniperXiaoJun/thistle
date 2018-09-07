@@ -19,7 +19,7 @@
 
 package sviolet.thistle.x.ezcrypto;
 
-public class TezParsKy_Src_B extends TezCom_Proc_Src<byte[]> {
+public class TezParsKy_Src_B extends TezCom_Proc_Src_NoTrace<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数

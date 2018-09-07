@@ -44,24 +44,24 @@ public class TezCrypt_Rd_File2B extends TezCom_Proc<File, byte[]> {
      * select选择流程
      * *****************************************************************************************************************/
 
-    public void selectEncrypt(){
-        //TODO
+//    public TezCrypt_Hand_BEcypt selectEncrypt(){
+//        return new TezCrypt_Hand_BEcypt(this);
+//    }
+//
+//    public TezCrypt_Hand_BDcypt selectDecrypt(){
+//        return new TezCrypt_Hand_BDcypt(this);
+//    }
+
+    public TezCrypt_Hand_BDgst selectDigest(){
+        return new TezCrypt_Hand_BDgst(this);
     }
 
-    public TezCrypt_Hand_BDcypt selectDecrypt(){
-        return new TezCrypt_Hand_BDcypt(this);
+    public TezCrypt_Hand_BSign selectSign(){
+        return new TezCrypt_Hand_BSign(this);
     }
 
-    public void selectDigest(){
-        //TODO
-    }
-
-    public void selectSign(){
-        //TODO
-    }
-
-    public void selectVerify(){
-        //TODO
+    public TezCrypt_Hand_BVeri selectVerify(){
+        return new TezCrypt_Hand_BVeri(this);
     }
 
     /* *****************************************************************************************************************

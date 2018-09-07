@@ -44,7 +44,25 @@ public class TezCrypt_Rd_Stm2B extends TezCom_Proc<InputStream, byte[]> {
      * select选择流程
      * *****************************************************************************************************************/
 
-    //TODO
+//    public TezCrypt_Hand_BEcypt selectEncrypt(){
+//        return new TezCrypt_Hand_BEcypt(this);
+//    }
+//
+//    public TezCrypt_Hand_BDcypt selectDecrypt(){
+//        return new TezCrypt_Hand_BDcypt(this);
+//    }
+
+    public TezCrypt_Hand_BDgst selectDigest(){
+        return new TezCrypt_Hand_BDgst(this);
+    }
+
+    public TezCrypt_Hand_BSign selectSign(){
+        return new TezCrypt_Hand_BSign(this);
+    }
+
+    public TezCrypt_Hand_BVeri selectVerify(){
+        return new TezCrypt_Hand_BVeri(this);
+    }
 
     /* *****************************************************************************************************************
      * continue继续流程
