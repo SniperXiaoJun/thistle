@@ -19,9 +19,7 @@
 
 package sviolet.thistle.x.ezcrypto;
 
-import java.io.InputStream;
-
-public class TezCrypt_Src_InStm extends TezCom_Proc_Src<InputStream> {
+public class TezCrypt_Src_B extends TezCom_Proc_Src<byte[]> {
 
     /* *****************************************************************************************************************
      * property必要参数 / option可选参数
@@ -31,32 +29,32 @@ public class TezCrypt_Src_InStm extends TezCom_Proc_Src<InputStream> {
      * select选择流程
      * *****************************************************************************************************************/
 
-//    public TezCrypt_Hand_StmEcypt selectEncrypt(){
-//        return new TezCrypt_Hand_StmEcypt(this);
+//    public TezCrypt_Hand_BEcypt selectEncrypt(){
+//        return new TezCrypt_Hand_BEcypt(this);
 //    }
 //
-//    public TezCrypt_Hand_StmDcypt selectDecrypt(){
-//        return new TezCrypt_Hand_StmDcypt(this);
+//    public TezCrypt_Hand_BDcypt selectDecrypt(){
+//        return new TezCrypt_Hand_BDcypt(this);
 //    }
 
-    public TezCrypt_Hand_StmDgst selectDigest(){
-        return new TezCrypt_Hand_StmDgst(this);
+    public TezCrypt_Hand_BDgst selectDigest(){
+        return new TezCrypt_Hand_BDgst(this);
     }
 
-    public TezCrypt_Hand_StmSign selectSign(){
-        return new TezCrypt_Hand_StmSign(this);
+    public TezCrypt_Hand_BSign selectSign(){
+        return new TezCrypt_Hand_BSign(this);
     }
 
-    public TezCrypt_Hand_StmVeri selectVerify(){
-        return new TezCrypt_Hand_StmVeri(this);
+    public TezCrypt_Hand_BVeri selectVerify(){
+        return new TezCrypt_Hand_BVeri(this);
     }
 
     /* *****************************************************************************************************************
      * continue继续流程
      * *****************************************************************************************************************/
 
-    public TezCrypt_Rd_Stm2B continueTranscode(){
-        return new TezCrypt_Rd_Stm2B(this);
+    public TezCrypt_Trs_B2B continueTranscode(){
+        return new TezCrypt_Trs_B2B(this);
     }
 
     /* *****************************************************************************************************************
@@ -67,7 +65,7 @@ public class TezCrypt_Src_InStm extends TezCom_Proc_Src<InputStream> {
      * inner logic
      * *****************************************************************************************************************/
 
-    TezCrypt_Src_InStm(InputStream input) {
+    TezCrypt_Src_B(byte[] input) {
         super(input);
     }
 
