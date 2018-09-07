@@ -55,6 +55,7 @@ public abstract class TezCom_Proc<I, O> {
     private TezCom_Proc<?, ?> nextProc;
     private List<Closeable> closeables;
     private AtomicBoolean done = new AtomicBoolean(false);
+    private String caller;
 
     TezCom_Proc(TezCom_Proc<?, ?> previous) {
         if (previous == null) {
@@ -63,6 +64,9 @@ public abstract class TezCom_Proc<I, O> {
         } else {
             firstProc = previous.firstProc;
             previous.nextProc = this;
+        }
+        if (TezCom_Util_Debug.isDebug()) {
+            caller = TezCom_Util_Debug.getCaller();
         }
     }
 
@@ -77,6 +81,23 @@ public abstract class TezCom_Proc<I, O> {
             CloseableUtils.closeQuiet(closeable);
         }
         firstProc.closeables = null;
+    }
+
+    String getCallerTrace(TezCom_Proc<?, ?> errorProc){
+        if (caller == null) {
+            return null;
+        }
+        StringBuilder callerTrace = new StringBuilder("EasyCrypto");
+        TezCom_Proc<?, ?> currProc = firstProc;
+        while (currProc != null) {
+            callerTrace.append(".");
+            callerTrace.append(currProc.caller);
+            if (currProc == errorProc){
+                break;
+            }
+            currProc = currProc.nextProc;
+        }
+        return callerTrace.toString();
     }
 
     O doFinal() throws EzException {
@@ -96,7 +117,12 @@ public abstract class TezCom_Proc<I, O> {
                 try {
                     outputData = currProc.process(inputData);
                 } catch (Exception e) {
-                    throw new EzException("EasyCrypto: process error, step " + step + ", processor " + currProc.getClass().getSimpleName(), e, step);
+                    String callerTrace = getCallerTrace(currProc);
+                    if (callerTrace == null) {
+                        throw new EzException("EasyCrypto: Error, on step:" + step + ", processor:" + currProc.getClass().getSimpleName(), e, step);
+                    } else {
+                        throw new EzException("EasyCrypto: Error, on step:" + step + ", processor:" + currProc.getClass().getSimpleName() + ", after:" + callerTrace, e, step);
+                    }
                 }
                 currProc = currProc.nextProc;
                 inputData = outputData;
@@ -106,7 +132,7 @@ public abstract class TezCom_Proc<I, O> {
             try {
                 return (O) inputData;
             } catch (Exception e) {
-                throw new EzException("EasyCrypto: process error, step " + step + " (result cast)", e, step);
+                throw new EzException("EasyCrypto: Error, on result cast", e, step);
             }
 
         } finally {
