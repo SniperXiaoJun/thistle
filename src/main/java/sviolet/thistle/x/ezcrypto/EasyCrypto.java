@@ -149,7 +149,6 @@ public class EasyCrypto {
      * *****************************************************************************************************************/
 
     public static EasyCryptoGenCert generateCertificate(){
-        //TODO
         //每次创建对象, 防止在没有依赖BouncyCastle时出错
         return new EasyCryptoGenCert();
     }

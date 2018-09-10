@@ -19,7 +19,7 @@
 
 package sviolet.thistle.x.ezcrypto;
 
-public class TezCom_Util_Debug {
+class TezCom_Util_Debug {
 
     private static boolean debug;
 
