@@ -2,7 +2,7 @@
 * Java common library for private use
 * https://github.com/shepherdviolet/thistle
 
-### Import dependencies from maven repository
+# Import dependencies from maven repository
 
 ```gradle
 
@@ -61,3 +61,7 @@ dependencies {
         </exclusions>
     </dependency>
 ```
+
+# Contents
+
+* [Thistle Spi](https://github.com/shepherdviolet/thistle/blob/master/docs/spi-manual.md)
